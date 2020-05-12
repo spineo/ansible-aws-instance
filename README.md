@@ -62,4 +62,4 @@ aws_secret_access_key = YOURSECRETKEY
 
 ## Create and Run the Playbook
 
-The _ansible_ directory in this repository contains the ![_playbooks/ec2-instance.yml_](ansible/playbooks/ec2-instance.yml) generic playbook to spin up the instance and the _inventories/ec2-instance.template_
+The _ansible_ directory in this repository contains the [_playbooks/ec2-instance.yml_](ansible/playbooks/ec2-instance.yml) generic playbook to spin up the instance and the _inventories/ec2-instance.template_
