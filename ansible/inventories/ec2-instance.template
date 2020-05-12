@@ -1,0 +1,39 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# EC2 Instance Configuration
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[servers]
+localhost
+
+[servers:vars]
+
+# Default instance if Free-tier
+#
+instance_type=t2.micro
+
+# This key pair name can be generated from the EC2 dashboard as a PEM and will be needed to SSH into the instance
+#
+key_name=MyKeyName
+
+# The 'image_id' can be obtained from the 'AMI ID' field of a running instance and the 'vcp_subnet_id' from the 'Subnet ID' field.
+#
+image_id=ami-xxxxxx
+vpc_subnet_id=subnet-xxxxxx
+
+# Credentials (generated and download 'credentials.csv' from the EC2 dashboard)
+#
+aws_access_key=YourAccessKey
+aws_secret_key=YourSecretKey
+
+# Not to be confused with "Availability zone"!
+#
+region=us-xxxx-x
+
+
+# Ensure that the security group has inbound SSH access
+#
+security_group=
+
+# Instance Name ('Name' tag)
+#
+instance_name=

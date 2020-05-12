@@ -1,0 +1,20 @@
+- name: EC2 Instance
+  hosts: servers
+  connection: local
+  tasks:
+  - name: Launch EC2 Instance
+    ec2:
+      instance_type: "{{ instance_type }}"
+      key_name: "{{ key_name }}"
+      image: "{{ image_id }}"
+      aws_access_key: "{{ aws_access_key }}"
+      aws_secret_key: "{{ aws_secret_key }}"
+      region: "{{ region }}"
+      group: "{{ security_group }}"
+      count: 1
+      wait: yes
+      vpc_subnet_id: "{{ vpc_subnet_id }}"
+      assign_public_ip: yes
+      instance_tags:
+        Name: "{{ instance_name }}"
+    register: ec2
