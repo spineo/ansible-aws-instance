@@ -15,7 +15,7 @@ Under the _IAM_ section go to _Users_ and the click on _Add user_ to create a us
  
  Finally, create and download the generated access keys (these will be saved to a _credentials.csv_ file) to be used with the playbook:
  
- ![Download Keys](images/download_csv)
+ ![Download Keys](images/download_csv.png)
 
 
 ## Install Ansible
