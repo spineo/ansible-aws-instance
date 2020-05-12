@@ -62,4 +62,18 @@ aws_secret_access_key = YOURSECRETKEY
 
 ## Create and Run the Playbook
 
-The _ansible_ directory in this repository contains the [_playbooks/ec2-instance.yml_](ansible/playbooks/ec2-instance.yml) generic playbook to spin up the instance and the _inventories/ec2-instance.template_
+The [_ansible_](ansible) directory in this repository contains the [_playbooks/ec2-instance.yml_](ansible/playbooks/ec2-instance.yml) generic playbook to spin up the instance and the [_inventories/ec2-instance.template_](ansible/inventories/ec2-instance.template) that can be used to create the inventory file.
+
+Once the inventory file (i.e., _inventories/ec2-instance_) values are in place from the _ansible_ subdirectory run the command:
+```
+ansible-playbook -i inventories/ec2-instance playbooks/ec2-instance.yml
+```
+
+Navigating to the _EC2 Dashboard_ you can check the status of the running instance:
+
+![Running Instance](images/running_instance.png)
+
+Since I spun up an Ubuntu instance, I can now access this instance from an SSH-enabled terminal using the _ubuntu_ user:
+```
+ssh -i /keypath/mykey.pem ubuntu@ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com
+```
