@@ -69,7 +69,7 @@ Once the inventory file (i.e., _inventories/ec2-instance_) values are in place f
 ansible-playbook -i inventories/ec2-instance playbooks/ec2-instance.yml
 ```
 
-Navigating to the _EC2 Dashboard_ you can check the status of the running instance:
+Navigating to the _EC2 Dashboard_ you can check the status of the instance (in this case _TestInstance_):
 
 ![Running Instance](images/running_instance.png)
 
