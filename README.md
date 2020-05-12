@@ -7,9 +7,9 @@ This project defines the Ansible Inventory and Playbook to launch an AWS EC2 ins
 
 Before you get started we will need to create an _IAM_ user with the necessary programmatic privileges:
 
+Under the _IAM_ section go to _Users_ and the click on _Add user_ to create a user specifically for this role. In my case, I named it _admin_:
 
-
-Under the _IAM_ section ensure that you have defined an AWS user (i.e., _Add user_) and ensure that you attach an existing policy (i.e., _AdministratorAccess_).
+![Add User](images/add_user.png)
 
 Under the _Summary_ section you can create and download an _Access Key_ (i.e., saved to _accessKey.csv_) which will be used in the configuration for the _ansible-playbook_
 
