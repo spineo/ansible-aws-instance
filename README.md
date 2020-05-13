@@ -60,7 +60,7 @@ aws_access_key_id = YOURACCESSKEY
 aws_secret_access_key = YOURSECRETKEY
 ```
 
-## Create and Run the Playbook
+## Spin Up and Instance: Configure the Inventory File and Run the EC2 Instance Playbook
 
 The [_ansible_](ansible) directory in this repository contains the [_playbooks/ec2-instance.yml_](ansible/playbooks/ec2-instance.yml) generic playbook to spin up the instance and the [_inventories/ec2-instance.template_](ansible/inventories/ec2-instance.template) that can be used to create the inventory file.
 
@@ -93,60 +93,7 @@ ssh -i /keypath/mykey.pem ubuntu@ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com
 
 ### Running the Playbooks
 
-Before starting, you will need to create an _ansible_hosts_ (or whatever name you choose) inventory file which you can copy/modify from the _ansible/inventories/ansible_hosts.template_ checked into this repository (the server values are the Public DNS or IP). You probably will not need to modify any of the _playbooks_ or _templates_ though its probably good to review them before a deployment in case you need to extend or modify the configuration.
-```
-[servers]
-server1
-server2
-server3
-
-[servers:vars]
-ansible_ssh_user=ec2-user
-ansible_ssh_private_key_file=/localpath/yourkey.pem
-ansible_ssh_common_args='-o StrictHostKeyChecking=no'
-
-# Zookeeper configuration (listed are the default ports and conf)
-#
-zk_user=zookeeper
-zk_home=/zookeeper_home
-zk_data_dir=/zookeeper_data_dir
-zk_conf=zoo.cfg
-zk_client_port=2181
-zk_peer_port=2888
-zk_leader_port=3888
-
-# Hadoop/HDFS configuration
-#
-ha_master_host="{{ ansible_play_hosts[0] }}"
-ha_slaves_hosts="{{ ansible_play_hosts[1:] }}"
-ha_user=hadoop
-ha_group=hadoop
-ha_home=/hadoop_home
-ha_conf={{ ha_home }}/etc/hadoop
-
-# core-site
-#
-ha_hdfs_port=9000
-
-# hdfs-site
-#
-ha_dfs_replication=3
-ha_dfs_name_dir=/usr/local/hadoop/hdfs/data
-
-# mapred-site.xml
-#
-ha_jobtracker_port=54311
-
-# yarn-site.xml
-#
-ha_scheduler_port=8030
-ha_resource_tracker_port=8031
-
-# SSH Config
-#
-ha_ssh_dir=/home/{{ ha_user }}/.ssh
-ha_identity_file={{ ha_ssh_dir }}/id_rsa
-```
+Before starting, you will need to create an _ansible_hosts_ (or whatever name you choose) inventory file which you can copy/modify from the [_ansible/inventories/ansible_hosts.template_](ansible/inventories/ansible_hosts.template) checked into this repository (the server values are the Public DNS or IP). You probably will not need to modify any of the _playbooks_ or _templates_ though its probably good to review them before a deployment in case you need to extend or modify the configuration.
 
 Once done, you can test it by running _ansible servers -m ping -i ./inventories/ansible_hosts_ to verify that instances are up. If successful, you should output similar to the one below for each instance pinged:
 ```
@@ -159,10 +106,10 @@ ec2-xxx-xxx-xxx-xx1.compute-1.amazonaws.com | SUCCESS => {
 }
 ```
 
-To run the _zookeeper_ playbook which ensures that the configuration contains the right hosts (and other values listed) as well as restarting the daemons on each host run below commands: 
+To run the [_zookeeper_](ansible/playbooks/zookeeper.yml) playbook which ensures that the configuration contains the right hosts (and other values listed) as well as restarting the daemons on each host run below commands: 
 ```
 cd ansible
-ansible-playbook ./playbooks/zookeeper.yml -i ./inventories/ansible_hosts
+ansible-playbook -i ./inventories/ansible_hosts ./playbooks/zookeeper.yml
 ```
 You will see output associated with each task, but if all goes well will get a _play recap_ at the end showing the successful completion status.
 ```
@@ -172,17 +119,17 @@ ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com : ok=6    changed=2    unreachable=0
 ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com : ok=6    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-Similarly to run the _hadoop_ playbook (which is primarily template driven) execute:
+Similarly to run the [_hadoop_](ansible/playbooks/hadoop.yml) playbook (which is primarily template driven) execute:
 ```
-ansible-playbook ./playbooks/hadoop.yml -i ./inventories/ansible_hosts
+ansible-playbook -i ./inventories/ansible_hosts ./playbooks/hadoop.yml
 ```
 
 The hadoop playbook not only overwrites the configuration files listed in the playbook but also sets up the SSH configuration and executes the commands to stop/start DFS and YARN.
 
 
-To run the _accumulo_ playbook execute:
+To run the [_accumulo_](ansible/playbooks/accumulo.yml) playbook execute:
 ```
-ansible-playbook ./playbooks/accumulo.yml -i ./inventories/ansible_hosts
+ansible-playbook -i ./inventories/ansible_hosts ./playbooks/accumulo.yml
 ```
 
 For now, this playbook only configures the _accumulo.properties_, _accumulo-client.properties_ and initializes the _accumulo_ user _.bashrc_ (all functionality template driven)
