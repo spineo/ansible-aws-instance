@@ -89,7 +89,7 @@ Since I spun up an Ubuntu instance, I can now access this instance from an SSH-e
 ssh -i /keypath/mykey.pem ubuntu@ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com
 ```
 
-## Ansible Configuration: Automated Configuration/Start-up of Zookeeper, Hadoop, and Accumulo
+## Ansible Configuration: Automated AccumuloConfiguration/Start-up of Zookeeper, Hadoop, and Accumulo
 
 ### Running the Playbooks
 
