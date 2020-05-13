@@ -43,14 +43,11 @@ ansible 2.9.7
   python version = 2.7.10 (default, Jul 15 2017, 17:16:57) [GCC 4.2.1 Compatible Apple LLVM 9.0.0 (clang-900.0.31)]v
 ```
 
-In addition to Ansible we will use _boto_, a Python interface to AWS implementing the EC2 modules API (installation shown below):
+In addition to Ansible we will use _boto_ and _boto3_, Python interfaces to AWS implementing the _ec2_ and _ec2_group_ modules (installation/dependencies shown below):
 ```
-pip install boto
-Collecting boto
-  Downloading boto-2.49.0-py2.py3-none-any.whl (1.4 MB)
-     |████████████████████████████████| 1.4 MB 1.6 MB/s 
-Installing collected packages: boto
-Successfully installed boto-2.49.0
+pip install boto boto3
+...
+Successfully installed boto-2.49.0 boto3-1.13.8 botocore-1.16.8 s3transfer-0.3.3 urllib3-1.25.
 ```
 
 Then create the _.boto_ file in your home directory with the below contents (this is the access key information you downloaded to the CSV file) ensuring that the file permissions are set to _400_ (alternatively, you can also reference these keys in your playbook as I will show):
@@ -91,7 +88,16 @@ ssh -i /keypath/mykey.pem ubuntu@ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com
 
 ## Ansible Configuration: Automated AccumuloConfiguration/Start-up of Zookeeper, Hadoop, and Accumulo
 
-### Running the Playbooks
+### Create the EC2 Security Group
+
+Run this playbook unless this group already exists and is attached to each instance. The EC2 Security Group is a dynamic group that opens up specifically the protocols/ports and public IPs needed to run the Zookeeper, Hadoop, and Accumulo cluster as well as any additional protocols/ports needed to interact with the instances (i.e., SSH)
+
+To create the 'ZK-HA-AC-Restrictive' security group first create a inventory file from the [_template_](ansible/inventories/zk_ha_ac_group.template) and then run the [_playbook_](ansible/playbooks/zk_ha_ac_group.yml). From the [_ansible_](ansible) subdirectory:
+```
+ansible-playbook -i ./inventories/zk_ha_ac_group ./playbooks/zk_ha_ac_group.yml
+```
+
+### Running the Application Playbooks
 
 Before starting, you will need to create an _ansible_hosts_ (or whatever name you choose) inventory file which you can copy/modify from the [_ansible/inventories/ansible_hosts.template_](ansible/inventories/ansible_hosts.template) checked into this repository (the server values are the Public DNS or IP). You probably will not need to modify any of the _playbooks_ or _templates_ though its probably good to review them before a deployment in case you need to extend or modify the configuration.
 
