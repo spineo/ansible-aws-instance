@@ -1,0 +1,14 @@
+Host nnode
+    HostName {{ ha_master_host }}
+    User {{ ha_user }}
+    IdentityFile {{ ha_identity_file }}
+
+{% set node_ct = 1 %}
+{% for item in ha_slaves_hosts %}
+Host dnode{{ node_ct }}
+    HostName {{ item }}
+    User {{ ha_user }}
+    IdentityFile {{ ha_identity_file }}
+
+    {% set node_ct = node_ct + 1 %}
+{% endfor %}

@@ -1,0 +1,102 @@
+- name: Hadoop
+  hosts: servers
+  become: true
+  become_user: "{{ ha_user }}"
+  tasks:
+    - name: Template for 'core-site.xml'
+      template:
+        src: ../templates/core-site.xml
+        dest: "{{ ha_conf }}/core-site.xml"
+        owner: "{{ ha_user }}"
+        group: "{{ ha_group }}"
+        mode: '0644'
+
+    - name: Template for 'hdfs-site.xml'
+      template:
+        src: ../templates/hdfs-site.xml
+        dest: "{{ ha_conf }}/hdfs-site.xml"
+        owner: "{{ ha_user }}"
+        group: "{{ ha_group }}"
+        mode: '0644'
+
+    - name: Template for 'mapred-site.xml'
+      template:
+        src: ../templates/mapred-site.xml
+        dest: "{{ ha_conf }}/mapred-site.xml"
+        owner: "{{ ha_user }}"
+        group: "{{ ha_group }}"
+        mode: '0644'
+
+    - name: Template for 'yarn-site.xml'
+      template:
+        src: ../templates/yarn-site.xml
+        dest: "{{ ha_conf }}/yarn-site.xml"
+        owner: "{{ ha_user }}"
+        group: "{{ ha_group }}"
+        mode: '0644'
+
+    - name: "Template for 'masters', file added only to '{{ ha_master_host }}'"
+      delegate_to: "{{ ha_master_host }}"
+      template:
+        src: ../templates/masters
+        dest: "{{ ha_conf }}/masters"
+        owner: "{{ ha_user }}"
+        group: "{{ ha_group }}"
+        mode: '0644'
+
+    - name: Template for 'slaves'
+      template:
+        src: ../templates/slaves
+        dest: "{{ ha_conf }}/slaves"
+        owner: "{{ ha_user }}"
+        group: "{{ ha_group }}"
+        mode: '0644'
+
+    - name: Template for the SSH 'config' file
+      delegate_to: "{{ ha_master_host }}"
+      template:
+        src: ../templates/ssh_config
+        dest: "{{ ha_ssh_dir }}/config"
+        owner: "{{ ha_user }}"
+        group: "{{ ha_group }}"
+        mode: '0600'
+
+    - name: "Add the SSH Public Key to 'known_hosts' (if not already there) on '{{ ha_master_host }}'"
+      delegate_to: "{{ ha_master_host }}"
+      shell:
+        cmd: "[ `grep -c {{ ha_master_host }} ~/.ssh/known_hosts` -eq 0 ] && \
+             ssh -o 'StrictHostKeyChecking no' {{ ha_master_host }} \
+             cat {{ ha_ssh_dir }}/id_rsa.pub >> {{ ha_ssh_dir }}/known_hosts"
+        chdir: "{{ ha_home }}"
+
+    # If not running, it will still return status code 0
+    #
+    - name: "Stop the Hadoop/DFS Daemon on '{{ ha_master_host }}'"
+      delegate_to: "{{ ha_master_host }}"
+      shell:
+        cmd: ./stop-dfs.sh
+        chdir: "{{ ha_home }}/sbin"
+
+    # Web UI can be accessed on the master node port 50070
+    #
+    - name: "Start the Hadoop/DFS Daemon on '{{ ha_master_host }}'"
+      delegate_to: "{{ ha_master_host }}"
+      shell:
+        cmd: ./start-dfs.sh
+        chdir: "{{ ha_home }}/sbin"
+
+    # If not running, it will still return status code 0
+    #
+    - name: "Stop the YARN Daemon on '{{ ha_master_host }}'"
+      delegate_to: "{{ ha_master_host }}"
+      shell:
+        cmd: ./stop-yarn.sh
+        chdir: "{{ ha_home }}/sbin"
+
+    # Web UI can be accessed on the master node port 8088
+    #
+    - name: "Start the YARN Daemon on '{{ ha_master_host }}'"
+      delegate_to: "{{ ha_master_host }}"
+      shell:
+        cmd: ./start-yarn.sh
+        chdir: "{{ ha_home }}/sbin"

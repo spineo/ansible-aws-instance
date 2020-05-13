@@ -1,0 +1,72 @@
+[servers]
+server1
+server2
+server3
+
+[servers:vars]
+ansible_ssh_user=ec2-user
+ansible_ssh_private_key_file=/localpath/yourkey.pem
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Zookeeper configuration (listed are the default ports and conf)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+zk_user=zookeeper
+zk_home=/zookeeper_home
+zk_data_dir=/zookeeper_data_dir
+zk_conf=zoo.cfg
+zk_client_port=2181
+zk_peer_port=2888
+zk_leader_port=3888
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Hadoop/HDFS configuration
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ha_master_host="{{ ansible_play_hosts[0] }}"
+ha_slaves_hosts="{{ ansible_play_hosts[1:] }}"
+ha_user=hadoop
+ha_group=hadoop
+ha_home=/hadoop_home
+ha_conf={{ ha_home }}/etc/hadoop
+
+# core-site
+#
+ha_hdfs_port=9000
+
+# hdfs-site
+#
+ha_dfs_replication=3
+ha_dfs_name_dir=/usr/local/hadoop/hdfs/data
+
+# mapred-site.xml
+#
+ha_jobtracker_port=54311
+
+# yarn-site.xml
+#
+ha_scheduler_port=8030
+ha_resource_tracker_port=8031
+
+# SSH Config
+#
+ha_ssh_dir=/home/{{ ha_user }}/.ssh
+ha_identity_file={{ ha_ssh_dir }}/id_rsa
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Accumulo configuration
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ac_user=accumulo
+ac_group=accumulo
+ac_master_host="{{ ansible_play_hosts[0] }}"
+ac_zk_hosts="{{ ansible_play_hosts }}"
+ac_home=/accumulo_home
+ac_conf="{{ ac_home }}/conf"
+ac_hdfs_port=8020
+ac_trace_password=secret
+ac_auth_type=password
+ac_auth_principal=accumulo
+ac_auth_token=accumulo
+ac_java_home=your_java_installation
