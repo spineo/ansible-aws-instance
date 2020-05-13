@@ -64,9 +64,20 @@ aws_secret_access_key = YOURSECRETKEY
 
 The [_ansible_](ansible) directory in this repository contains the [_playbooks/ec2-instance.yml_](ansible/playbooks/ec2-instance.yml) generic playbook to spin up the instance and the [_inventories/ec2-instance.template_](ansible/inventories/ec2-instance.template) that can be used to create the inventory file.
 
-Once the inventory file (i.e., _inventories/ec2-instance_) values are in place from the _ansible_ subdirectory run the command:
+Once the inventory file (i.e., _inventories/ec2-instance_) values are in place from the _ansible_ subdirectory run the command (output follows):
 ```
 ansible-playbook -i inventories/ec2-instance playbooks/ec2-instance.yml
+
+PLAY [EC2 Instance] ****************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [Launch EC2 Instance] *********************************************************************************************************************************************************************
+changed: [localhost]
+
+PLAY RECAP *************************************************************************************************************************************************************************************
+localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
 Navigating to the _EC2 Dashboard_ you can check the status of the instance (in this case _TestInstance_):
