@@ -60,7 +60,7 @@ aws_access_key_id = YOURACCESSKEY
 aws_secret_access_key = YOURSECRETKEY
 ```
 
-## Spin Up and Instance: Configure the Inventory File and Run the EC2 Instance Playbook
+## Spin up an AWS Instance: Configure the Inventory File and Run the EC2 Instance Playbook
 
 The [_ansible_](ansible) directory in this repository contains the [_playbooks/ec2-instance.yml_](ansible/playbooks/ec2-instance.yml) generic playbook to spin up the instance and the [_inventories/ec2-instance.template_](ansible/inventories/ec2-instance.template) that can be used to create the inventory file.
 
