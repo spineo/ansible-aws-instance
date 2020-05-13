@@ -5,7 +5,7 @@
   tasks:
     - name: Template for 'core-site.xml'
       template:
-        src: ../templates/core-site.xml
+        src: ../templates/hadoop/core-site.xml
         dest: "{{ ha_conf }}/core-site.xml"
         owner: "{{ ha_user }}"
         group: "{{ ha_group }}"
@@ -13,7 +13,7 @@
 
     - name: Template for 'hdfs-site.xml'
       template:
-        src: ../templates/hdfs-site.xml
+        src: ../templates/hadoop/hdfs-site.xml
         dest: "{{ ha_conf }}/hdfs-site.xml"
         owner: "{{ ha_user }}"
         group: "{{ ha_group }}"
@@ -21,7 +21,7 @@
 
     - name: Template for 'mapred-site.xml'
       template:
-        src: ../templates/mapred-site.xml
+        src: ../templates/hadoop/mapred-site.xml
         dest: "{{ ha_conf }}/mapred-site.xml"
         owner: "{{ ha_user }}"
         group: "{{ ha_group }}"
@@ -29,7 +29,7 @@
 
     - name: Template for 'yarn-site.xml'
       template:
-        src: ../templates/yarn-site.xml
+        src: ../templates/hadoop/yarn-site.xml
         dest: "{{ ha_conf }}/yarn-site.xml"
         owner: "{{ ha_user }}"
         group: "{{ ha_group }}"
@@ -38,7 +38,7 @@
     - name: "Template for 'masters', file added only to '{{ ha_master_host }}'"
       delegate_to: "{{ ha_master_host }}"
       template:
-        src: ../templates/masters
+        src: ../templates/hadoop/masters
         dest: "{{ ha_conf }}/masters"
         owner: "{{ ha_user }}"
         group: "{{ ha_group }}"
@@ -46,7 +46,7 @@
 
     - name: Template for 'slaves'
       template:
-        src: ../templates/slaves
+        src: ../templates/hadoop/slaves
         dest: "{{ ha_conf }}/slaves"
         owner: "{{ ha_user }}"
         group: "{{ ha_group }}"
@@ -55,7 +55,7 @@
     - name: Template for the SSH 'config' file
       delegate_to: "{{ ha_master_host }}"
       template:
-        src: ../templates/ssh_config
+        src: ../templates/hadoop/ssh_config
         dest: "{{ ha_ssh_dir }}/config"
         owner: "{{ ha_user }}"
         group: "{{ ha_group }}"

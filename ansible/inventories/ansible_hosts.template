@@ -1,3 +1,5 @@
+# Use public IP Addresses for this section
+#
 [servers]
 server1
 server2
@@ -7,6 +9,10 @@ server3
 ansible_ssh_user=ec2-user
 ansible_ssh_private_key_file=/localpath/yourkey.pem
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# EC2 Security Group configuration
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Zookeeper configuration (listed are the default ports and conf)

@@ -1,0 +1,30 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# EC2 Restrictive Security Group for ZK, HA, and AC
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[servers]
+localhost
+
+[servers:vars]
+
+# Fill this with the specific IPs that constitute the cluster
+#
+hosts=[ '1.1.1.1', '2.2.2.2' ]
+
+# List of ports used by the Zookeeper, Hadoop, and Accumulo Cluster
+#
+ports=[ '7', '2181', '2888', '3888', '9000', '54311', '50070', '8030', '8031', '8088', '8020' ]
+
+# You can easily obtain this by looking at existing security groups
+#`
+vpc_id=vpc-xxxxx
+
+# Credentials (generated and download 'credentials.csv' from the EC2 dashboard)
+#
+aws_access_key=YOUR_ACCESS_KEY
+aws_secret_key=YOUR_SECRET_KEY
+
+# Not to be confused with "Availability zone"!
+#
+region=us-xxxx-x
+

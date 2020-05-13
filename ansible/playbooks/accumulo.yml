@@ -6,7 +6,7 @@
     - name: Template for 'accumulo.properties'
       delegate_to: "{{ ac_master_host }}"
       template:
-        src: ../templates/accumulo.properties
+        src: ../templates/accumulo/accumulo.properties
         dest: "{{ ac_conf }}/accumulo.properties"
         owner: "{{ ac_user }}"
         group: "{{ ac_group }}"
@@ -15,7 +15,7 @@
     - name: Template for 'accumulo-client.properties'
       delegate_to: "{{ ac_master_host }}"
       template:
-        src: ../templates/accumulo-client.properties
+        src: ../templates/accumulo/accumulo-client.properties
         dest: "{{ ac_conf }}/accumulo-client.properties"
         owner: "{{ ac_user }}"
         group: "{{ ac_group }}"
@@ -24,7 +24,7 @@
     - name: Template for 'bashrc'
       delegate_to: "{{ ac_master_host }}"
       template:
-        src: ../templates/ac_bashrc
+        src: ../templates/accumulo/bashrc
         dest: "/home/{{ ac_user }}/.bashrc"
         owner: "{{ ac_user }}"
         group: "{{ ac_group }}"
