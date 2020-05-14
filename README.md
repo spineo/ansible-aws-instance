@@ -99,10 +99,17 @@ ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_group.yml
 
 ### Start/Stop the Instances
 
-The _instance_id_ for the cluster instances should be added to the [_zk_ha_ac_config_](ansible/inventories/zk_ha_ac_config.template) inventory file. The playbooks [_start_](ansible/playbooks/zk_ha_ac_start.yml) and [_stop_](ansible/playbooks/zk_ha_ac_stop.yml) can then be run to start/stop the cluster instances:
+The _instance_id_ for the cluster instances should be added to the [_zk_ha_ac_config_](ansible/inventories/zk_ha_ac_conf.template) inventory file. The playbooks [_start_](ansible/playbooks/zk_ha_ac_start.yml) and [_stop_](ansible/playbooks/zk_ha_ac_stop.yml) can then be run to start/stop the cluster instances:
 ```
-ansible-playbook -i ./inventories/zk_ha_ac_config ./playbooks/zk_ha_ac_start.yml
-ansible-playbook -i ./inventories/zk_ha_ac_config ./playbooks/zk_ha_ac_stop.yml
+ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_start.yml
+ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_stop.yml
+```
+
+### Updating Active Instances with the ZK/HA/AC Restrictive Security Group
+
+The 'conf' playbook initializes the security group, stops/starts the instances (attaching the security group), and adds the restrictive rules to the security group based on the new instance information (such as new public IPs). To set this up, modify the [_zk_ha_ac_conf]_(ansible/inventories/zk_ha_ac_conf.template) inventory template and then run the [_playbook_](ansible/playbooks/zk_ha_ac_conf.yml):
+```
+ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_conf.yml
 ```
 
 ### Running the Application Playbooks
@@ -148,7 +155,8 @@ ansible-playbook -i ./inventories/ansible_hosts ./playbooks/accumulo.yml
 
 For now, this playbook only configures the _accumulo.properties_, _accumulo-client.properties_ and initializes the _accumulo_ user _.bashrc_ (all functionality template driven)
 
-## References
+## Ansible References
 * https://docs.ansible.com/ansible/latest/modules/ec2_module.html
+* https://docs.ansible.com/ansible/latest/modules/ec2_instance_module.html
 * https://docs.ansible.com/ansible/latest/modules/ec2_group_module.html
 * https://docs.ansible.com/ansible/2.4/playbooks_loops.html#nested-loops
