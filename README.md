@@ -97,6 +97,14 @@ To create the 'ZK-HA-AC-Restrictive' security group first create a inventory fil
 ansible-playbook -i ./inventories/zk_ha_ac_config ./playbooks/zk_ha_ac_group.yml
 ```
 
+### Start/Stop the Instances
+
+The _instance_id_ for the cluster instances should be added to the [_zk_ha_ac_config_](ansible/inventories/zk_ha_ac_config) inventory file. The playbooks [_start_](ansible/playbooks/zk_ha_ac_start.yml) and [_stop_](ansible/playbooks/zk_ha_ac_stop.yml) can then be run to start/stop the cluster instances:
+```
+ansible-playbook -i ./inventories/zk_ha_ac_config ./playbooks/zk_ha_ac_start.yml
+ansible-playbook -i ./inventories/zk_ha_ac_config ./playbooks/zk_ha_ac_stop.yml
+```
+
 ### Running the Application Playbooks
 
 Before starting, you will need to create an _ansible_hosts_ (or whatever name you choose) inventory file which you can copy/modify from the [_ansible/inventories/ansible_hosts.template_](ansible/inventories/ansible_hosts.template) checked into this repository (the server values are the Public DNS or IP). You probably will not need to modify any of the _playbooks_ or _templates_ though its probably good to review them before a deployment in case you need to extend or modify the configuration.
