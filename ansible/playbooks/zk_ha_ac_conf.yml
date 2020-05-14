@@ -1,0 +1,66 @@
+- name: Start the ZK/HA/AC Cluster Instances
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    # Stop the cluster in preparation for reconfiguration
+    #`
+    - name: Stop the cluster instances
+      ec2:
+        instance_ids: '{{ instance_ids }}'
+        region: '{{ region }}'
+        state: stopped
+        wait: True
+        vpc_subnet_id: "{{ vpc_subnet_id }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+
+    # Create the core security group (without rules)
+    #
+    - name: EC2 Security Group
+      ec2_group:
+        name: "{{ security_group }}"
+        description: Zookeeper, Hadoop, Accumulo Cluster Security Group
+        vpc_id: "{{ vpc_id }}"
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        rules: []
+
+    # Restart and register ec2 (we will need the new instance public IPs to update the security group)
+    #
+    - name: Start the cluster instances
+      ec2:
+        instance_ids: '{{ instance_ids }}'
+        region: '{{ region }}'
+        state: running
+        wait: True
+        vpc_subnet_id: "{{ vpc_subnet_id }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        group: "{{ security_group }}"
+        assign_public_ip: yes
+      register: ec2
+
+    # Update the security group with the restrictive IP/Port rules
+    #
+    - name: Initialize with the SSH Rule
+      set_fact:
+        tcp_rules: "{{ [{'proto': 'tcp', 'cidr_ip': '0.0.0.0/0', 'from_port': '22', 'to_port': '22' }] }}"
+
+    - name: Prepare the Rules for the 'ZK-HA-AC-Restricted' Security Group
+      set_fact:
+        tcp_rules: "{{ tcp_rules + [{'proto': 'tcp', 'cidr_ip': item[0].public_ip + '/32', 'from_port': item[1], 'to_port': item[1]}] }}"
+      with_nested:
+        - "{{ ec2.instances }}"
+        - "{{ ports }}"
+
+    - name: EC2 Security Group
+      ec2_group:
+        name: "{{ security_group }}"
+        description: Zookeeper, Hadoop, Accumulo Cluster Security Group
+        vpc_id: "{{ vpc_id }}"
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        rules: "{{ tcp_rules }}"

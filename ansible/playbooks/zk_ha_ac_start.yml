@@ -3,7 +3,7 @@
   connection: local
   gather_facts: false
   tasks:
-    - name: Start the sandbox instances
+    - name: Start the cluster instances
       ec2:
         instance_ids: '{{ instance_ids }}'
         region: '{{ region }}'
