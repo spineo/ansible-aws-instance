@@ -1,0 +1,14 @@
+- name: Stop the ZK/HA/AC Cluster Instances
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Stop the sandbox instances
+      ec2:
+        instance_ids: '{{ instance_ids }}'
+        region: '{{ region }}'
+        state: stopped
+        wait: True
+        vpc_subnet_id: "{{ vpc_subnet_id }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"

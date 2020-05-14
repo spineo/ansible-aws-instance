@@ -7,6 +7,10 @@ localhost
 
 [servers:vars]
 
+# On the dashboard, this should be the first field (i.e., 'Instance ID') of the Description
+#
+instance_ids=[ 'i-xxxxx', 'i-xxxxx', 'i-xxxxx' ]
+
 # Fill this with the specific IPs that constitute the cluster
 #
 hosts=[ '1.1.1.1', '2.2.2.2' ]
