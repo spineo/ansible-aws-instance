@@ -105,8 +105,6 @@ ansible-playbook -i ./inventories/zk_ha_ac_config ./playbooks/zk_ha_ac_start.yml
 ansible-playbook -i ./inventories/zk_ha_ac_config ./playbooks/zk_ha_ac_stop.yml
 ```
 
-Note: If the security group 'ZK-HA-AC-Restrictive' has not been created, ensure that it is run before the start so that it can be associated with each cluster instance.
-
 ### Running the Application Playbooks
 
 Before starting, you will need to create an _ansible_hosts_ (or whatever name you choose) inventory file which you can copy/modify from the [_ansible/inventories/ansible_hosts.template_](ansible/inventories/ansible_hosts.template) checked into this repository (the server values are the Public DNS or IP). You probably will not need to modify any of the _playbooks_ or _templates_ though its probably good to review them before a deployment in case you need to extend or modify the configuration.
