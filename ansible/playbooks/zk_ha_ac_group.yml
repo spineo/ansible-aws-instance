@@ -5,7 +5,7 @@
   - name: Prepare the Rules for the 'ZK-HA-AC-Restricted' Security Group
     set_fact:
       tcp_rules: "{{ tcp_rules | default([{'proto': 'tcp', 'cidr_ip': '0.0.0.0/0', 'from_port': '22', 'to_port': '22' }]) + [{'proto': 'tcp', 'cidr_ip': item[0] + '/32', 'from_port': item[1], 'to_port': item[1]}] }}"
-    with_nested:
+    with_items:
       - "{{ hosts }}"
       - "{{ ports }}"
 
