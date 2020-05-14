@@ -32,3 +32,6 @@ aws_secret_key=YOUR_SECRET_KEY
 #
 region=us-xxxx-x
 
+# Security Group Name
+#
+security_group=ZK-HA-AC-Restricted

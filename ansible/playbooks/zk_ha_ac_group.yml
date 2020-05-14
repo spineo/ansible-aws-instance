@@ -11,7 +11,7 @@
 
   - name: EC2 Security Group
     ec2_group:
-      name: ZK-HA-AC-Restricted
+      name: "{{ security_group }}"
       description: Zookeeper, Hadoop, Accumulo Cluster Security Group
       vpc_id: "{{ vpc_id }}"
       region: "{{ region }}"
