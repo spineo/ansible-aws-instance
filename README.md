@@ -139,3 +139,8 @@ ansible-playbook -i ./inventories/ansible_hosts ./playbooks/accumulo.yml
 ```
 
 For now, this playbook only configures the _accumulo.properties_, _accumulo-client.properties_ and initializes the _accumulo_ user _.bashrc_ (all functionality template driven)
+
+## References
+* https://docs.ansible.com/ansible/latest/modules/ec2_module.html
+* https://docs.ansible.com/ansible/latest/modules/ec2_group_module.html
+* https://docs.ansible.com/ansible/2.4/playbooks_loops.html#nested-loops
