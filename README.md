@@ -59,11 +59,11 @@ aws_secret_access_key = YOURSECRETKEY
 
 ## Spin up an AWS Instance: Configure the Inventory File and Run the EC2 Instance Playbook
 
-The [_ansible_](ansible) directory in this repository contains the [_playbooks/ec2-instance.yml_](ansible/playbooks/ec2-instance.yml) generic playbook to spin up the instance and the [_inventories/ec2-instance.template_](ansible/inventories/ec2-instance.template) that can be used to create the inventory file.
+The [_ansible_](ansible) directory in this repository contains the [_playbooks/ec2_instance.yml_](ansible/playbooks/ec2_instance.yml) generic playbook to spin up the instance and the [_inventories/ec2_instance.template_](ansible/inventories/ec2_instance.template) that can be used to create the inventory file.
 
-Once the inventory file (i.e., _inventories/ec2-instance_) values are in place from the _ansible_ subdirectory run the command (output follows):
+Once the inventory file (i.e., _inventories/ec2_instance_) values are in place from the _ansible_ subdirectory run the command (output follows):
 ```
-ansible-playbook -i inventories/ec2-instance playbooks/ec2-instance.yml
+ansible-playbook -i inventories/ec2_instance playbooks/ec2_instance.yml
 
 PLAY [EC2 Instance] ****************************************************************************************************************************************************************************
 
@@ -92,9 +92,9 @@ ssh -i /keypath/mykey.pem ubuntu@ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com
 
 Run this playbook unless this group already exists and is attached to each instance. The EC2 Security Group is a dynamic group that opens up specifically the protocols/ports and public IPs needed to run the Zookeeper, Hadoop, and Accumulo cluster as well as any additional protocols/ports needed to interact with the instances (i.e., SSH)
 
-To create the 'ZK-HA-AC-Restrictive' security group first create a inventory file from the [_template_](ansible/inventories/zk_ha_ac_group.template) and then run the [_playbook_](ansible/playbooks/zk_ha_ac_group.yml). From the [_ansible_](ansible) subdirectory:
+To create the 'ZK-HA-AC-Restrictive' security group first create a inventory file from the [_template_](ansible/inventories/zk_ha_ac_config.template) and then run the [_playbook_](ansible/playbooks/zk_ha_ac_config.yml). From the [_ansible_](ansible) subdirectory:
 ```
-ansible-playbook -i ./inventories/zk_ha_ac_group ./playbooks/zk_ha_ac_group.yml
+ansible-playbook -i ./inventories/zk_ha_ac_config ./playbooks/zk_ha_ac_config.yml
 ```
 
 ### Running the Application Playbooks
