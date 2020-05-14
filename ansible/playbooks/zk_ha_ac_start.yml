@@ -12,5 +12,4 @@
         vpc_subnet_id: "{{ vpc_subnet_id }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
-        group: "{{ security_group }}"
         assign_public_ip: yes
