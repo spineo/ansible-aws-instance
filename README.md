@@ -99,7 +99,7 @@ ansible-playbook -i ./inventories/zk_ha_ac_config ./playbooks/zk_ha_ac_group.yml
 
 ### Start/Stop the Instances
 
-The _instance_id_ for the cluster instances should be added to the [_zk_ha_ac_config_](ansible/inventories/zk_ha_ac_config) inventory file. The playbooks [_start_](ansible/playbooks/zk_ha_ac_start.yml) and [_stop_](ansible/playbooks/zk_ha_ac_stop.yml) can then be run to start/stop the cluster instances:
+The _instance_id_ for the cluster instances should be added to the [_zk_ha_ac_config_](ansible/inventories/zk_ha_ac_config.template) inventory file. The playbooks [_start_](ansible/playbooks/zk_ha_ac_start.yml) and [_stop_](ansible/playbooks/zk_ha_ac_stop.yml) can then be run to start/stop the cluster instances:
 ```
 ansible-playbook -i ./inventories/zk_ha_ac_config ./playbooks/zk_ha_ac_start.yml
 ansible-playbook -i ./inventories/zk_ha_ac_config ./playbooks/zk_ha_ac_stop.yml
