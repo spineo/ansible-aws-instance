@@ -114,7 +114,7 @@ ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_conf.yml
 
 ### Running the Application Playbooks
 
-Before starting, you will need to create an _ansible_hosts_ (or whatever name you choose) inventory file which you can copy/modify from the [_ansible/inventories/ansible_hosts.template_](ansible/inventories/ansible_hosts.template) checked into this repository (the server values are the Public DNS or IP). You probably will not need to modify any of the _playbooks_ or _templates_ though its probably good to review them before a deployment in case you need to extend or modify the configuration.
+Before starting, you will need to create an _ansible_hosts_ (or whatever name you choose) inventory file which you can copy/modify from the [_ansible/inventories/ansible_hosts.template_](ansible/inventories/ansible_hosts.template) checked into this repository (the server values are the Public DNS or IP). In addition, the [_server_](ansible/inventories/server.template) file should include the hosts (it can be generated dynamically). You probably will not need to modify any of the _playbooks_ or _templates_ though its probably good to review them before a deployment in case you need to extend or modify the configuration.
 
 Once done, you can test it by running _ansible servers -m ping -i ./inventories/ansible_hosts_ to verify that instances are up. If successful, you should output similar to the one below for each instance pinged:
 ```
@@ -130,7 +130,7 @@ ec2-xxx-xxx-xxx-xx1.compute-1.amazonaws.com | SUCCESS => {
 To run the [_zookeeper_](ansible/playbooks/zookeeper.yml) playbook which ensures that the configuration contains the right hosts (and other values listed) as well as restarting the daemons on each host run below commands: 
 ```
 cd ansible
-ansible-playbook -i ./inventories/ansible_hosts ./playbooks/zookeeper.yml
+ansible-playbook  -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/zookeeper.yml
 ```
 You will see output associated with each task, but if all goes well will get a _play recap_ at the end showing the successful completion status.
 ```
@@ -142,7 +142,7 @@ ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com : ok=6    changed=2    unreachable=0
 
 Similarly to run the [_hadoop_](ansible/playbooks/hadoop.yml) playbook (which is primarily template driven) execute:
 ```
-ansible-playbook -i ./inventories/ansible_hosts ./playbooks/hadoop.yml
+ansible-playbook -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/hadoop.yml
 ```
 
 The hadoop playbook not only overwrites the configuration files listed in the playbook but also sets up the SSH configuration and executes the commands to stop/start DFS and YARN.
@@ -150,7 +150,7 @@ The hadoop playbook not only overwrites the configuration files listed in the pl
 
 To run the [_accumulo_](ansible/playbooks/accumulo.yml) playbook execute:
 ```
-ansible-playbook -i ./inventories/ansible_hosts ./playbooks/accumulo.yml
+ansible-playbook  -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/accumulo.yml
 ```
 
 For now, this playbook only configures the _accumulo.properties_, _accumulo-client.properties_ and initializes the _accumulo_ user _.bashrc_ (all functionality template driven)
