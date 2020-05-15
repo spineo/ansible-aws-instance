@@ -90,7 +90,7 @@ ssh -i /keypath/mykey.pem ubuntu@ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com
 
 ### Create the EC2 Security Group
 
-Run this playbook unless this group already exists and is attached to each instance. The EC2 Security Group is a dynamic group that opens up specifically the protocols/ports and public IPs needed to run the Zookeeper, Hadoop, and Accumulo cluster as well as any additional protocols/ports needed to interact with the instances (i.e., SSH)
+Run this playbook unless this group already exists and is attached to each instance. The EC2 Security Group is a dynamic group that opens up specifically the protocols/ports and private/public IPs needed to run the Zookeeper, Hadoop, and Accumulo cluster as well as any additional protocols/ports needed to interact with the instances (i.e., SSH)
 
 To create the 'ZK-HA-AC-Restrictive' security group first create a inventory file from the [_template_](ansible/inventories/zk_ha_ac_conf.template) and then run the [_playbook_](ansible/playbooks/zk_ha_ac_group.yml). From the [_ansible_](ansible) subdirectory:
 ```
