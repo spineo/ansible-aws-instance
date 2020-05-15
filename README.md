@@ -116,7 +116,7 @@ ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_conf.yml
 
 Before starting, you will need to create an _ansible_hosts_ (or whatever name you choose) inventory file which you can copy/modify from the [_ansible/inventories/ansible_hosts.template_](ansible/inventories/ansible_hosts.template) checked into this repository (the server values are the Public DNS or IP). In addition, the [_server_](ansible/inventories/server.template) file should include the hosts (it can be generated dynamically). You probably will not need to modify any of the _playbooks_ or _templates_ though its probably good to review them before a deployment in case you need to extend or modify the configuration.
 
-Once done, you can test it by running _ansible servers -m ping -i ./inventories/ansible_hosts_ to verify that instances are up. If successful, you should output similar to the one below for each instance pinged:
+Once done, you can test it by running _ansible servers -m ping -i ./inventories/servers_ to verify that instances are up. If successful, you should output similar to the one below for each instance pinged:
 ```
 ec2-xxx-xxx-xxx-xx1.compute-1.amazonaws.com | SUCCESS => {
     "ansible_facts": {
@@ -140,9 +140,14 @@ ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com : ok=6    changed=2    unreachable=0
 ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com : ok=6    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-Similarly to run the [_hadoop_](ansible/playbooks/hadoop.yml) playbook (which is primarily template driven) execute:
+Similarly to run the [_hadoop_](ansible/playbooks/hadoop_conf.yml) playbook (which is primarily template driven) execute:
 ```
-ansible-playbook -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/hadoop.yml
+ansible-playbook -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/hadoop_conf.yml
+```
+
+To start up DFS and YARN daemons there is a separate [_playbook_](ansible/playbooks/hadoop_daemons.yml) that can be executed:
+```
+ansible-playbook -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/hadoop_daemons.yml
 ```
 
 The hadoop playbook not only overwrites the configuration files listed in the playbook but also sets up the SSH configuration and executes the commands to stop/start DFS and YARN.
