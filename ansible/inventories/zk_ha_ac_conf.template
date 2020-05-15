@@ -13,15 +13,18 @@ instance_ids=[ 'i-xxxxx', 'i-xxxxx', 'i-xxxxx' ]
 
 # Fill this with the specific IPs that constitute the cluster
 #
-hosts=[ '1.1.1.1', '2.2.2.2' ]
+ext_ips=[ 'xxx.xxx.xxx.xxx', 'xxx.xxx.xxx.xxx', 'xxx.xxx.xxx.xxx' ]
+int_ips=[ 'xxx.xxx.xxx.xxx', 'xxx.xxx.xxx.xxx', 'xxx.xxx.xxx.xxx' ]
 
 # List of ports used by the Zookeeper, Hadoop, and Accumulo Cluster
 #
-ports=[ '7', '2181', '2888', '3888', '9000', '54311', '50070', '8030', '8031', '8088', '8020' ]
+ext_ports=[ '22', '50070', '8088' ]
+ports=[ '22', '7', '2181', '2888', '3888', '9000', '54311', '8030', '8031', '8020' ]
 
 # You can easily obtain this by looking at existing security groups
 #`
 vpc_id=vpc-xxxxx
+vpc_subnet_id=subnet-xxxxx
 
 # Credentials (generated and download 'credentials.csv' from the EC2 dashboard)
 #

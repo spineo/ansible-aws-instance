@@ -12,3 +12,6 @@ Host dnode{{ node_ct }}
 
     {% set node_ct = node_ct + 1 %}
 {% endfor %}
+
+Host 0.0.0.0
+    StrictHostKeyChecking no    

@@ -1,16 +1,28 @@
-- name: EC2 Instance
+- name: EC2 Group - Prepare the Rules for the 'ZK-HA-AC-Restricted' Security Group
   hosts: servers
   connection: local
   tasks:
-  - name: Initialize with the SSH Rule
-    set_fact:
-      tcp_rules: "{{ [{'proto': 'tcp', 'cidr_ip': '0.0.0.0/0', 'from_port': '22', 'to_port': '22' }] }}"
+  - shell: curl ifconfig.me
+    register: myip
 
-  - name: Prepare the Rules for the 'ZK-HA-AC-Restricted' Security Group
+  - name: Ingress Rules on my local IP for External Facing Ports (including SSH)
+    set_fact:
+      tcp_rules: "{{ tcp_rules | default([]) + [{'proto': 'tcp', 'cidr_ip': myip.stdout + '/32', 'from_port': item, 'to_port': item }] }}"
+    with_items:
+      - "{{ ext_ports }}"
+
+  - name: Ingress Rules on internal Cluster IPs
     set_fact:
       tcp_rules: "{{ tcp_rules + [{'proto': 'tcp', 'cidr_ip': item[0] + '/32', 'from_port': item[1], 'to_port': item[1]}] }}"
     with_nested:
-      - "{{ hosts }}"
+      - "{{ int_ips }}"
+      - "{{ ports }}"
+
+  - name: Ingress Rules on Public Cluster IPs
+    set_fact:
+      tcp_rules: "{{ tcp_rules + [{'proto': 'tcp', 'cidr_ip': item[0] + '/32', 'from_port': item[1], 'to_port': item[1]}] }}"
+    with_nested:
+      - "{{ ext_ips }}"
       - "{{ ports }}"
 
   - name: EC2 Security Group

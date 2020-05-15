@@ -29,7 +29,6 @@ aws_secret_key=YourSecretKey
 #
 region=us-xxxx-x
 
-
 # Ensure that the security group has inbound SSH access
 #
 security_group=
