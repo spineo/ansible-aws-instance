@@ -1,0 +1,47 @@
+- name: Hadoop
+  hosts: servers
+  become: true
+  become_user: "{{ ha_user }}"
+  tasks:
+    - name: Remove and re-create the 'known_hosts' file
+      delegate_to: "{{ ha_master_host }}"
+      shell:
+        cmd: "rm {{ ha_ssh_dir }}/known_hosts && touch {{ ha_ssh_dir }}/known_hosts || echo 'Not Found'"
+
+    - name: "Add the fingerprint 'known_hosts'"
+      delegate_to: "{{ ha_master_host }}"
+      shell:
+        cmd: "ssh -o 'StrictHostKeyChecking no' {{ item }} 'ls'"
+      loop: "{{ ansible_play_hosts }}"
+
+    # If not running, it will still return status code 0
+    #
+    - name: "Stop the Hadoop/DFS Daemon on '{{ ha_master_host }}'"
+      delegate_to: "{{ ha_master_host }}"
+      shell:
+        cmd: ./stop-dfs.sh
+        chdir: "{{ ha_home }}/sbin"
+
+    # Web UI can be accessed on the master node port 50070
+    #
+    - name: "Start the Hadoop/DFS Daemon on '{{ ha_master_host }}'"
+      delegate_to: "{{ ha_master_host }}"
+      shell:
+        cmd: ./start-dfs.sh
+        chdir: "{{ ha_home }}/sbin"
+
+    # If not running, it will still return status code 0
+    #
+    - name: "Stop the YARN Daemon on '{{ ha_master_host }}'"
+      delegate_to: "{{ ha_master_host }}"
+      shell:
+        cmd: ./stop-yarn.sh
+        chdir: "{{ ha_home }}/sbin"
+
+    # Web UI can be accessed on the master node port 8088
+    #
+    - name: "Start the YARN Daemon on '{{ ha_master_host }}'"
+      delegate_to: "{{ ha_master_host }}"
+      shell:
+        cmd: ./start-yarn.sh
+        chdir: "{{ ha_home }}/sbin"
