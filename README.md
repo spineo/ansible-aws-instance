@@ -171,4 +171,6 @@ For now, this playbook only configures the _accumulo.properties_, _accumulo-clie
 * https://docs.ansible.com/ansible/latest/modules/ec2_module.html
 * https://docs.ansible.com/ansible/latest/modules/ec2_instance_module.html
 * https://docs.ansible.com/ansible/latest/modules/ec2_group_module.html
+https://docs.ansible.com/ansible/latest/modules/ec2_instance_info_module.html
 * https://docs.ansible.com/ansible/2.4/playbooks_loops.html#nested-loops
+
