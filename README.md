@@ -112,6 +112,13 @@ The 'conf' playbook initializes the security group, stops/starts the instances (
 ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_conf.yml
 ```
 
+### Generating the 'servers' File
+
+The [_servers_](ansible/playbooks/zk_ha_ac_servers.yml) playbook queries the running EC2 instances (based on instance ids) for the public DNS names and generates the 'servers' file in the _inventories_ directory. Execute using the same inventory file used previously:
+```
+ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_servers.yml
+```
+
 ### Running the Application Playbooks
 
 Before starting, you will need to create an _ansible_hosts_ (or whatever name you choose) inventory file which you can copy/modify from the [_ansible/inventories/ansible_hosts.template_](ansible/inventories/ansible_hosts.template) checked into this repository (the server values are the Public DNS or IP). In addition, the [_server_](ansible/inventories/server.template) file should include the hosts (it can be generated dynamically). You probably will not need to modify any of the _playbooks_ or _templates_ though its probably good to review them before a deployment in case you need to extend or modify the configuration.
@@ -164,4 +171,6 @@ For now, this playbook only configures the _accumulo.properties_, _accumulo-clie
 * https://docs.ansible.com/ansible/latest/modules/ec2_module.html
 * https://docs.ansible.com/ansible/latest/modules/ec2_instance_module.html
 * https://docs.ansible.com/ansible/latest/modules/ec2_group_module.html
+https://docs.ansible.com/ansible/latest/modules/ec2_instance_info_module.html
 * https://docs.ansible.com/ansible/2.4/playbooks_loops.html#nested-loops
+
