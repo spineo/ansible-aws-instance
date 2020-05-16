@@ -1,0 +1,28 @@
+- name: Create the 'servers' files for the ZK/HA/AC Cluster Instances
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: EC2 Instance Info
+      ec2_instance_info:
+        instance_ids: "{{ instance_ids }}"
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+      register: e2
+
+    - name: Construct the 'servers' list
+      set_fact:
+        servers_list: "{{ servers_list | default([]) + [ item.public_dns_name ] }}"
+      with_items:
+        - "{{ e2.instances }}"
+
+    - name: Write the 'servers' file
+      template:
+        src: ../templates/ec2/servers
+        dest: ../inventories/servers
+        mode: '0644'
+      vars:
+        servers: "{{ servers_list }}"
+
+
