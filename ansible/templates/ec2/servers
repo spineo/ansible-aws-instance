@@ -3,3 +3,7 @@
 
 [servers:vars]
 private_ips={{ private_ips }}
+
+ha_master_private_ip={{ private_ips[0] }}
+
+ha_slaves_private_ips={{ private_ips[1:] }}

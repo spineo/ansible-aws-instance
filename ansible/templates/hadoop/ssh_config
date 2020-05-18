@@ -1,15 +1,14 @@
 Host nnode
-    HostName {{ ha_master_host }}
+    HostName {{ ha_master_private_ip }}
     User {{ ha_user }}
     IdentityFile {{ ha_identity_file }}
 
 {% set node_ct = 1 %}
-{% for item in ha_slaves_hosts %}
+{% for item in ha_slaves_private_ips %}
 Host dnode{{ node_ct }}
     HostName {{ item }}
     User {{ ha_user }}
     IdentityFile {{ ha_identity_file }}
-
     {% set node_ct = node_ct + 1 %}
 {% endfor %}
 

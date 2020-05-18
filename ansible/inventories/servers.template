@@ -1,3 +1,10 @@
 [servers]
 ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com
 ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com
+
+[servers:vars]
+private_ips=[u'xxx.xxx.xxx.xxx', u'xxx.xxx.xxx.xxx']
+
+ha_master_private_ip=xxx.xxx.xxx.xxx
+
+ha_slaves_private_ips=[u'xxx.xxx.xxx.xxx']

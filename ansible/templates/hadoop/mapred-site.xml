@@ -19,7 +19,7 @@
 <configuration>
     <property>
         <name>mapreduce.jobtracker.address</name>
-        <value>{{ ha_master_host }}:{{ ha_jobtracker_port }}</value>
+        <value>{{ ha_master_private_ip }}:{{ ha_jobtracker_port }}</value>
     </property>
     <property>
         <name>mapreduce.framework.name</name>

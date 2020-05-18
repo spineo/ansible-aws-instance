@@ -12,3 +12,4 @@
 #
 alias hdfs='ssh -i {{ ssh_key }} -L50070:{{ servers[0] }}:50070 {{ ec2user }}@{{ servers[0] }}'
 alias yarn='ssh -i {{ ssh_key }} -L8088:{{ servers[0] }}:8088 {{ ec2user }}@{{ servers[0] }}'
+alias hist='ssh -i {{ ssh_key }} -L18080:{{ servers[0] }}:18080 {{ ec2user }}@{{ servers[0] }}'

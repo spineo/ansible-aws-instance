@@ -12,7 +12,7 @@
       delegate_to: "{{ ha_master_host }}"
       shell:
         cmd: "ssh -o 'StrictHostKeyChecking no' {{ item }} 'ls'"
-      loop: "{{ ansible_play_hosts }}"
+      loop: "{{ private_ips }}"
 
     # If not running, it will still return status code 0
     #

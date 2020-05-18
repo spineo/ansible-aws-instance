@@ -1,1 +1,1 @@
-{{ ha_slaves_hosts | join('\n') }}
+{{ ha_slaves_private_ips | join('\n') }}
