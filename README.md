@@ -134,10 +134,11 @@ ec2-xxx-xxx-xxx-xx1.compute-1.amazonaws.com | SUCCESS => {
 }
 ```
 
-To run the [_zookeeper_](ansible/playbooks/zookeeper.yml) playbook which ensures that the configuration contains the right hosts (and other values listed) as well as restarting the daemons on each host run below commands: 
+To run the [_zookeeper_conf_](ansible/playbooks/zookeeper_conf.yml) playbook which ensures that the configuration contains the right hosts (and other values listed) as well as restarting the daemons ([_zookeeper_daemons_](ansible/playbooks/zookeeper_daemons.yml) on each host run below commands: 
 ```
 cd ansible
-ansible-playbook  -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/zookeeper.yml
+ansible-playbook  -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/zookeeper_conf.yml
+ansible-playbook  -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/zookeeper_daemons.yml
 ```
 You will see output associated with each task, but if all goes well will get a _play recap_ at the end showing the successful completion status.
 ```
