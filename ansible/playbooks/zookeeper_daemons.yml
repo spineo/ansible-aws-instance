@@ -1,0 +1,17 @@
+- name: Zookeeper Daemons
+  hosts: servers
+  become: true
+  become_user: "{{ zk_user }}"
+  tasks:
+    - name: Restart the Zookeeper daemon
+      shell:
+        cmd: "./bin/zkServer.sh restart {{ zk_home }}/conf/{{ zk_conf }}"
+        chdir: "{{ zk_home }}"
+
+    - name: Check that the daemon status shows that it is running in a cluster
+      shell:
+        cmd: "./bin/zkServer.sh status"
+        chdir: "{{ zk_home }}"
+      register: command_result
+      failed_when: "'Mode: follower' not in command_result.stdout and 'Mode: leader' not in command_result.stdout"
+

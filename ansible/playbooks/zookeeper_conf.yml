@@ -1,0 +1,25 @@
+- name: Zookeeper Configuration
+  hosts: servers
+  become: true
+  become_user: "{{ zk_user }}"
+  tasks:
+    - name: Ensure config file contains the correct data directory reference
+      lineinfile:
+        path: "{{ zk_home }}/conf/{{ zk_conf }}"
+        regexp: "^dataDir=.*"
+        line: "dataDir={{ zk_data_dir }}"
+
+    - name: Ensure config file contains the correct client port
+      lineinfile:
+        path: "{{ zk_home }}/conf/{{ zk_conf }}"
+        regexp: "^clientPort=.*"
+        line: "clientPort={{ zk_client_port }}"
+
+    - name: Ensure config file contains the correct servers on each host
+      lineinfile:
+        path: "{{ zk_home }}/conf/{{ zk_conf }}"
+        regexp: "^server.{{ index+1 }}=.*"
+        line: "server.{{ index+1 }}={{ item }}:{{ zk_peer_port }}:{{ zk_leader_port }}"
+      loop: "{{ private_ips }}"
+      loop_control:
+        index_var: index

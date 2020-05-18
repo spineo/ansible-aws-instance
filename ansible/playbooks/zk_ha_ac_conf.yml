@@ -4,7 +4,7 @@
   gather_facts: false
   tasks:
     # Stop the cluster in preparation for reconfiguration
-    #`
+    #
     - name: Stop the cluster instances
       ec2:
         instance_ids: '{{ instance_ids }}'
