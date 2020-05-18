@@ -41,36 +41,3 @@
         group: "{{ security_group }}"
         assign_public_ip: yes
       register: ec2
-
-    - shell: curl ifconfig.me
-      register: myip
-
-    - name: Ingress Rules on my local IP for External Facing Ports (including SSH)
-      set_fact:
-        tcp_rules: "{{ tcp_rules | default([]) + [{'proto': 'tcp', 'cidr_ip': myip.stdout + '/32', 'from_port': item, 'to_port': item }] }}"
-      with_items:
-        - "{{ ext_ports }}"
-
-    - name: Ingress Rules on internal Cluster IPs
-      set_fact:
-        tcp_rules: "{{ tcp_rules + [{'proto': 'tcp', 'cidr_ip': item[0].private_ip + '/32', 'from_port': item[1], 'to_port': item[1]}] }}"
-      with_nested:
-        - "{{ ec2.instances }}"
-        - "{{ ports }}"
-
-    - name: Ingress Rules on Public Cluster IPs
-      set_fact:
-        tcp_rules: "{{ tcp_rules + [{'proto': 'tcp', 'cidr_ip': item[0].public_ip + '/32', 'from_port': item[1], 'to_port': item[1]}] }}"
-      with_nested:
-        - "{{ ec2.instances }}"
-        - "{{ ports }}"
-
-    - name: EC2 Security Group - Prepare the Rules for the 'ZK-HA-AC-Restricted' Security Group
-      ec2_group:
-        name: "{{ security_group }}"
-        description: Zookeeper, Hadoop, Accumulo Cluster Security Group
-        vpc_id: "{{ vpc_id }}"
-        region: "{{ region }}"
-        aws_access_key: "{{ aws_access_key }}"
-        aws_secret_key: "{{ aws_secret_key }}"
-        rules: "{{ tcp_rules }}"

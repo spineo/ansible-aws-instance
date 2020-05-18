@@ -9,14 +9,14 @@
         region: "{{ region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
-      register: e2
+      register: ec2
 
     - name: Construct the 'servers' list
       set_fact:
         servers_list: "{{ servers_list | default([]) + [ item.public_dns_name ] }}"
         private_ips_list: "{{ private_ips_list | default([]) + [ item.private_ip_address ] }}"
       with_items:
-        - "{{ e2.instances }}"
+        - "{{ ec2.instances }}"
 
     - name: Write the 'servers' file
       template:
