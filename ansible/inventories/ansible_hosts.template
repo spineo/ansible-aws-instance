@@ -8,6 +8,7 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 zk_user=zookeeper
+zk_group=zookeeper
 zk_home=/zookeeper_home
 zk_data_dir=/zookeeper_data_dir
 zk_conf=zoo.cfg

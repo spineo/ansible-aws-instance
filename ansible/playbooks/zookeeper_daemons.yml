@@ -3,12 +3,12 @@
   become: true
   become_user: "{{ zk_user }}"
   tasks:
-    - name: Restart the Zookeeper daemon
+    - name: Restart the Zookeeper daemons
       shell:
         cmd: "./bin/zkServer.sh restart {{ zk_home }}/conf/{{ zk_conf }}"
         chdir: "{{ zk_home }}"
 
-    - name: Check that the daemon status shows that it is running in a cluster
+    - name: Check that the daemons status shows that they are running in a cluster
       shell:
         cmd: "./bin/zkServer.sh status"
         chdir: "{{ zk_home }}"

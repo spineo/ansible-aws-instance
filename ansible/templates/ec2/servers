@@ -1,2 +1,5 @@
 [servers]
 {{ servers | join('\n') }}
+
+[servers:vars]
+private_ips={{ private_ips }}
