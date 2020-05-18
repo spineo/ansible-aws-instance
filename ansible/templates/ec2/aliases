@@ -1,0 +1,14 @@
+# This file contains aliases to SSH access the instances and create tunnels
+#
+{% set aliases = [] %}
+{% for host in servers  %}
+{{ aliases.append( "alias n" + loop.index|string + "='ssh -i " + ssh_key + " " + ec2user + "@" + host + "'" ) }}
+{% endfor %}
+# Instance access
+#
+{{ aliases | join('\n') }}
+
+# Specific tunnels
+#
+alias hdfs='ssh -i {{ ssh_key }} -L50070:{{ servers[0] }}:50070 {{ ec2user }}@{{ servers[0] }}'
+alias yarn='ssh -i {{ ssh_key }} -L8088:{{ servers[0] }}:8088 {{ ec2user }}@{{ servers[0] }}'

@@ -18,8 +18,15 @@ int_ips=[ 'xxx.xxx.xxx.xxx', 'xxx.xxx.xxx.xxx', 'xxx.xxx.xxx.xxx' ]
 
 # List of ports used by the Zookeeper, Hadoop, and Accumulo Cluster
 #
-ext_ports=[ '22', '50070', '8088' ]
-ports=[ '22', '7', '2181', '2888', '3888', '9000', '54311', '8030', '8031', '8020' ]
+ext_ports=[ '22' ]
+priv_ip_ports=[ '22', '7', '2181', '2888', '3888', '9000', '54311', '8030', '8031', '8020' ]
+pub_ip_ports=[ '22', '9000', '54311', '8030', '8031', '8020' ]
+
+# For constructing aliases
+#
+ec2user=ec2-user
+home_dir=your_home_dir
+ssh_key=path_to_pem_key
 
 # You can easily obtain this by looking at existing security groups
 #`

@@ -1,4 +1,8 @@
-- name: Create the 'servers' files for the ZK/HA/AC Cluster Instances
+# This Playbook creates an 'aliases' file that can be referenced in the ~/.bashrc
+# The use of these short aliases would make it easier to SSH into the instances
+# and create tunnels
+#
+- name: Create the 'aliases' files (optional)
   hosts: localhost
   connection: local
   gather_facts: false
@@ -11,18 +15,16 @@
         aws_secret_key: "{{ aws_secret_key }}"
       register: ec2
 
-    - name: Construct the 'servers' list
+    - name: Construct the public DNS list
       set_fact:
         servers_list: "{{ servers_list | default([]) + [ item.public_dns_name ] }}"
-        private_ips_list: "{{ private_ips_list | default([]) + [ item.private_ip_address ] }}"
       with_items:
         - "{{ ec2.instances }}"
 
-    - name: Write the 'servers' file
+    - name: Write the '.aliases' file
       template:
-        src: ../templates/ec2/servers
-        dest: ../inventories/servers
+        src: ../templates/ec2/aliases
+        dest: "{{ home_dir }}/.aliases"
         mode: '0644'
       vars:
         servers: "{{ servers_list }}"
-        private_ips: "{{ private_ips_list }}"
