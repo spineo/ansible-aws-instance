@@ -90,9 +90,7 @@ ssh -i /keypath/mykey.pem ubuntu@ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com
 
 ### Create the EC2 Security Group
 
-Run this playbook unless this group already exists and is attached to each instance. The EC2 Security Group is a dynamic group that opens up specifically the protocols/ports and private/public IPs needed to run the Zookeeper, Hadoop, and Accumulo cluster as well as any additional protocols/ports needed to interact with the instances (i.e., SSH)
-
-To create the 'ZK-HA-AC-Restrictive' security group first create a inventory file from the [_template_](ansible/inventories/zk_ha_ac_conf.template) and then run the [_playbook_](ansible/playbooks/zk_ha_ac_group.yml). From the [_ansible_](ansible) subdirectory:
+To create/update the 'ZK-HA-AC-Restrictive' security group (assuming the instances are already running) first create a inventory file from the [_template_](ansible/inventories/zk_ha_ac_conf.template) and then run the [_playbook_](ansible/playbooks/zk_ha_ac_group.yml). From the [_ansible_](ansible) subdirectory:
 ```
 ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_group.yml
 ```
@@ -105,11 +103,11 @@ ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_start.yml
 ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_stop.yml
 ```
 
-### Updating Active Instances with the ZK/HA/AC Restrictive Security Group
+### Stop/Starting Instances and attaching the Security Group
 
-The 'conf' playbook initializes the security group, stops/starts the instances (attaching the security group), and adds the restrictive rules to the security group based on the new instance information (such as new public IPs). To set this up, modify the [_zk_ha_ac_conf]_(ansible/inventories/zk_ha_ac_conf.template) inventory template and then run the [_playbook_](ansible/playbooks/zk_ha_ac_conf.yml):
+The 'instances' playbook initializes the security group, stops/starts the instances (attaching the security group), and adds the restrictive rules to the security group based on the new instance information (such as new public IPs). To set this up, modify the [_zk_ha_ac_conf_](ansible/inventories/zk_ha_ac_conf.template) inventory template and then run the [_playbook_](ansible/playbooks/zk_ha_ac_instances.yml):
 ```
-ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_conf.yml
+ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_instances.yml
 ```
 
 ### Generating the 'servers' File
