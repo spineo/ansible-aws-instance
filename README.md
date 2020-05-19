@@ -112,10 +112,15 @@ ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_instances.y
 
 ### Generating the 'servers' File
 
-The [_servers_](ansible/playbooks/zk_ha_ac_servers.yml) playbook queries the running EC2 instances (based on instance ids) for the public DNS names and generates the 'servers' file in the _inventories_ directory. Execute using the same inventory file used previously:
+The [_servers_](ansible/playbooks/zk_ha_ac_servers.yml) playbook queries the running EC2 instances (based on instance ids) for the public/private DNS names and generates the 'servers' file in the _inventories_ directory. Execute using the same inventory file used previously:
 ```
 ansible-playbook -i ./inventories/zk_ha_ac_conf ./playbooks/zk_ha_ac_servers.yml
 ```
+
+### Generate the '.aliases' File (optional)
+
+This file gets sourced by the _.bashrc_ to create simple to invoke aliases to SSH into the servers and create SSH tunnels to access the Web applications (since my own cluster is, under optimal conditions, locked down to use exclusively private DNS names leaving only port 22 opened externally to the /32 network mask)
+
 
 ### Running the Application Playbooks
 
