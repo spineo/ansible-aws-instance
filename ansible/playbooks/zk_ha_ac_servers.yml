@@ -14,7 +14,7 @@
     - name: Construct the 'servers' list
       set_fact:
         servers_list: "{{ servers_list | default([]) + [ item.public_dns_name ] }}"
-        private_ips_list: "{{ private_ips_list | default([]) + [ item.private_ip_address ] }}"
+        private_dns_list: "{{ private_dns_list | default([]) + [ item.private_dns_name ] }}"
       with_items:
         - "{{ ec2.instances }}"
 
@@ -25,4 +25,4 @@
         mode: '0644'
       vars:
         servers: "{{ servers_list }}"
-        private_ips: "{{ private_ips_list }}"
+        private_dns_names: "{{ private_dns_list }}"

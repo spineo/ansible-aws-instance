@@ -19,6 +19,6 @@
 <configuration>
   <property>
     <name>fs.default.name</name>
-    <value>hdfs://{{ ha_master_private_ip }}:{{ ha_hdfs_port }}</value>
+    <value>hdfs://{{ ha_master_private_dns_name }}:{{ ha_hdfs_port }}</value>
   </property>
 </configuration>

@@ -1,1 +1,1 @@
-{{ ha_master_private_ip }}
+{{ ha_master_private_dns_name }}
