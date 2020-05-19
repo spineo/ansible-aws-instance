@@ -4,6 +4,16 @@
 [servers:vars]
 private_dns_names={{ private_dns_names }}
 
-ha_master_private_dns_name={{ private_dns_names[0] }}
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Hadoop/HDFS configuration
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+ha_master_private_dns_name={{ private_dns_names[0] }}
 ha_slaves_private_dns_names={{ private_dns_names[1:] }}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Accumulo configuration
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ac_master_private_dns_name={{ private_dns_names[0] }}
+ac_zk_hosts={{ private_dns_names }}

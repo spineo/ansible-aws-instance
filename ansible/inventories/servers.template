@@ -7,6 +7,17 @@ ec2-xxx-xxx-xxx-xxx.compute-1.amazonaws.com
 [servers:vars]
 private_dns_names=[u'ip-xxx-xxx-xxx-xxx.ec2.internal', u'ip-xxx-xxx-xxx-xxx.ec2.internal']
 
-ha_master_private_dns_name=ip-xxx-xxx-xxx-xxx.ec2.internal
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Hadoop/HDFS configuration
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+ha_master_private_dns_name=ip-xxx-xxx-xxx-xxx.ec2.internal
 ha_slaves_private_dns_names=[u'ip-xxx-xxx-xxx-xxx.ec2.internal']
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Accumulo configuration
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ac_master_private_dns_name=ip-xxx-xxx-xxx-xxx.ec2.internal
+ac_zk_hosts=[u'ip-xxx-xxx-xxx-xxx.ec2.internal', u'ip-xxx-xxx-xxx-xxx.ec2.internal']

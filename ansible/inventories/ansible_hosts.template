@@ -21,7 +21,6 @@ zk_leader_port=3888
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ha_master_host="{{ ansible_play_hosts[0] }}"
-ha_slaves_hosts="{{ ansible_play_hosts[1:] }}"
 ha_user=hadoop
 ha_group=hadoop
 ha_home=/hadoop_home
@@ -54,13 +53,11 @@ ha_identity_file={{ ha_ssh_dir }}/id_rsa
 # Accumulo configuration
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+ac_master_host="{{ ansible_play_hosts[0] }}"
 ac_user=accumulo
 ac_group=accumulo
-ac_master_host="{{ ansible_play_hosts[0] }}"
-ac_zk_hosts="{{ ansible_play_hosts }}"
 ac_home=/accumulo_home
 ac_conf="{{ ac_home }}/conf"
-ac_hdfs_port=8020
 ac_trace_password=secret
 ac_auth_type=password
 ac_auth_principal=accumulo
