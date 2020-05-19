@@ -15,10 +15,19 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 export ZOOKEEPER_HOME={{ zk_home }}
 export HADOOP_HOME={{ ha_home }}
+export ACCUMULO_HOME={{ ac_home }}
 
 # Add the core Hadoop JARs
 #
 export CLASSPATH=
-for f in $HADOOP_HOME/share/hadoop/{common/lib/*,*/*}.jar; do
-    export CLASSPATH=$CLASSPATH:$f
+for file in $HADOOP_HOME/share/hadoop/{common/lib/*,*/*}.jar; do
+    export CLASSPATH=$file:$CLASSPATH
 done
+
+for file in $ACCUMULO_HOME/lib/*.jar; do
+    export CLASSPATH=$file:$CLASSPATH
+done
+
+# Create the alias
+#
+alias cda='cd $ACCUMULO_HOME; pwd'
