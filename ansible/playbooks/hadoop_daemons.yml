@@ -12,7 +12,6 @@
       delegate_to: "{{ ha_master_host }}"
       shell:
         cmd: "ssh -o 'StrictHostKeyChecking=no' {{ item }} 'ls'"
-        #cmd: "ssh-keyscan -H {{ item }} >> {{ ha_ssh_dir }}/known_hosts"
       loop: "{{ private_dns_names }}"
 
     # If not running, it will still return status code 0
