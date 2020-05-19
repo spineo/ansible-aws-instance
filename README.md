@@ -159,9 +159,9 @@ ansible-playbook -i ./inventories/servers -i ./inventories/ansible_hosts ./playb
 The hadoop playbook not only overwrites the configuration files listed in the playbook but also sets up the SSH configuration and executes the commands to stop/start DFS and YARN.
 
 
-To run the [_accumulo_](ansible/playbooks/accumulo.yml) playbook execute:
+To run the [_accumulo_](ansible/playbooks/accumulo_conf.yml) playbook execute:
 ```
-ansible-playbook  -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/accumulo.yml
+ansible-playbook  -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/accumulo_conf.yml
 ```
 
 For now, this playbook only configures the _accumulo.properties_, _accumulo-client.properties_ and initializes the _accumulo_ user _.bashrc_ (all functionality template driven)
@@ -170,6 +170,6 @@ For now, this playbook only configures the _accumulo.properties_, _accumulo-clie
 * https://docs.ansible.com/ansible/latest/modules/ec2_module.html
 * https://docs.ansible.com/ansible/latest/modules/ec2_instance_module.html
 * https://docs.ansible.com/ansible/latest/modules/ec2_group_module.html
-https://docs.ansible.com/ansible/latest/modules/ec2_instance_info_module.html
+* https://docs.ansible.com/ansible/latest/modules/ec2_instance_info_module.html
 * https://docs.ansible.com/ansible/2.4/playbooks_loops.html#nested-loops
 
