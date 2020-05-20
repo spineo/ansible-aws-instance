@@ -1,19 +1,27 @@
+{% set priv_dns_names = [] %}
+{% set pub_dns_names = [] %}
+{% for instance_id in instance_ids  %}
+{% set priv_dns = servers_dict[instance_id]['private_dns'] %}
+{% set pub_dns = servers_dict[instance_id]['public_dns'] %}
+{{ priv_dns_names.append(priv_dns) }}
+{{ pub_dns_names.append(pub_dns) }}
+{% endfor %}
 [servers]
-{{ servers | join('\n') }}
+{{ pub_dns_names | join('\n') }}
 
 [servers:vars]
-private_dns_names={{ private_dns_names }}
+private_dns_names={{ priv_dns_names }}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Hadoop/HDFS configuration
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ha_master_private_dns_name={{ private_dns_names[0] }}
-ha_slaves_private_dns_names={{ private_dns_names[1:] }}
+ha_master_private_dns_name={{ priv_dns_names[0] }}
+ha_slaves_private_dns_names={{ priv_dns_names[1:] }}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Accumulo configuration
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ac_master_private_dns_name={{ private_dns_names[0] }}
-ac_zk_hosts={{ private_dns_names }}
+ac_master_private_dns_name={{ priv_dns_names[0] }}
+ac_zk_hosts={{ priv_dns_names }}

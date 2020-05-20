@@ -13,8 +13,7 @@
 
     - name: Construct the 'servers' list
       set_fact:
-        servers_list: "{{ servers_list | default([]) + [ item.public_dns_name ] }}"
-        private_dns_list: "{{ private_dns_list | default([]) + [ item.private_dns_name ] }}"
+        servers_dict: "{{ servers_dict | default({}) | combine({ item.instance_id: { 'public_dns': item.public_dns_name, 'private_dns': item.private_dns_name } }) }}"
       with_items:
         - "{{ ec2.instances }}"
 
@@ -24,5 +23,4 @@
         dest: ../inventories/servers
         mode: '0644'
       vars:
-        servers: "{{ servers_list }}"
-        private_dns_names: "{{ private_dns_list }}"
+        servers_dict: "{{ servers_dict }}"
