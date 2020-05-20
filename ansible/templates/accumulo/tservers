@@ -1,0 +1,1 @@
+{{ private_dns_names | join('\n') }}

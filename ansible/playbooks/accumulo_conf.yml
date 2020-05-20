@@ -29,3 +29,48 @@
         owner: "{{ ac_user }}"
         group: "{{ ac_group }}"
         mode: '0644'
+
+    - name: Template for 'masters'
+      delegate_to: "{{ ac_master_host }}"
+      template:
+        src: ../templates/accumulo/masters
+        dest: "{{ ac_conf }}/masters"
+        owner: "{{ ac_user }}"
+        group: "{{ ac_group }}"
+        mode: '0644'
+
+    - name: Template for 'gc'
+      delegate_to: "{{ ac_master_host }}"
+      template:
+        src: ../templates/accumulo/gc
+        dest: "{{ ac_conf }}/gc"
+        owner: "{{ ac_user }}"
+        group: "{{ ac_group }}"
+        mode: '0644'
+
+    - name: Template for 'monitor'
+      delegate_to: "{{ ac_master_host }}"
+      template:
+        src: ../templates/accumulo/monitor
+        dest: "{{ ac_conf }}/monitor"
+        owner: "{{ ac_user }}"
+        group: "{{ ac_group }}"
+        mode: '0644'
+
+    - name: Template for 'tservers'
+      delegate_to: "{{ ac_master_host }}"
+      template:
+        src: ../templates/accumulo/tservers
+        dest: "{{ ac_conf }}/tservers"
+        owner: "{{ ac_user }}"
+        group: "{{ ac_group }}"
+        mode: '0644'
+
+    - name: Template for 'tracers'
+      delegate_to: "{{ ac_master_host }}"
+      template:
+        src: ../templates/accumulo/tracers
+        dest: "{{ ac_conf }}/tracers"
+        owner: "{{ ac_user }}"
+        group: "{{ ac_group }}"
+        mode: '0644'
