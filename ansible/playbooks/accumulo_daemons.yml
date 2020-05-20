@@ -1,0 +1,27 @@
+- name: Accumulo Daemons
+  hosts: servers
+  become: true
+  become_user: "{{ ac_user }}"
+  tasks:
+    # If not running, it will still return status code 0
+    #
+    - name: "Stop the Cluster Daemons '{{ ac_master_host }}'"
+      delegate_to: "{{ ac_master_host }}"
+      shell:
+        cmd: ./accumulo-cluster stop
+        chdir: "{{ ac_home }}/bin"
+
+    # Web UI can be accessed on the master node port 9995
+    #
+    - name: "Start the Cluster Daemons '{{ ac_master_host }}'"
+      delegate_to: "{{ ac_master_host }}"
+      shell:
+        cmd: ./accumulo-cluster start
+        chdir: "{{ ac_home }}/bin"
+
+    - name: Check that the 'masters' daemon is running
+      shell:
+        cmd: "ps -ef | grep 'application=masters' | wc -l"
+        chdir: "{{ zk_home }}"
+      register: command_result
+      failed_when: "command_result.stdout <= 2"
