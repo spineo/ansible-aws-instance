@@ -3,14 +3,12 @@ Host nnode
     User {{ ha_user }}
     IdentityFile {{ ha_identity_file }}
 
-{% set node_ct = 1 %}
 {% for item in ha_slaves_private_dns_names %}
-Host dnode{{ node_ct }}
+Host dnode{{ loop.index }}
     HostName {{ item }}
     User {{ ha_user }}
     IdentityFile {{ ha_identity_file }}
-    {% set node_ct = node_ct + 1 %}
-{% endfor %}
 
+{% endfor %}
 Host 0.0.0.0
     StrictHostKeyChecking no    
