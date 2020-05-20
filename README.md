@@ -169,6 +169,12 @@ To run the [_accumulo_](ansible/playbooks/accumulo_conf.yml) playbook execute:
 ansible-playbook  -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/accumulo_conf.yml
 ```
 
+To run the Accumulo cluster [_daemons_](ansible/playbooks/accumulo_daemons.yml) stop/start playbook execute:
+```
+ansible-playbook  -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/accumulo_daemons.yml
+```
+
+
 For now, this playbook only configures the _accumulo.properties_, _accumulo-client.properties_ and initializes the _accumulo_ user _.bashrc_ (all functionality template driven)
 
 ## Ansible References
