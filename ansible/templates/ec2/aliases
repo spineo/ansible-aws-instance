@@ -1,7 +1,12 @@
+{% set pub_dns_names = [] %}
+{% for instance_id in instance_ids  %}
+{% set pub_dns = servers_dict[instance_id]['public_dns'] %}
+{{ pub_dns_names.append(pub_dns) }}
+{% endfor %}
 # This file contains aliases to SSH access the instances and create tunnels
 #
 {% set aliases = [] %}
-{% for host in servers  %}
+{% for host in pub_dns_names  %}
 {{ aliases.append( "alias n" + loop.index|string + "='ssh -i " + ssh_key + " " + ec2user + "@" + host + "'" ) }}
 {% endfor %}
 # Instance access
@@ -10,7 +15,7 @@
 
 # Specific tunnels
 #
-alias hdfs='ssh -i {{ ssh_key }} -L50070:{{ servers[0] }}:50070 {{ ec2user }}@{{ servers[0] }}'
-alias yarn='ssh -i {{ ssh_key }} -L8088:{{ servers[0] }}:8088 {{ ec2user }}@{{ servers[0] }}'
-alias hist='ssh -i {{ ssh_key }} -L18080:{{ servers[0] }}:18080 {{ ec2user }}@{{ servers[0] }}'
-alias accu='ssh -i {{ ssh_key }} -L9995:{{ servers[0] }}:9995 {{ ec2user }}@{{ servers[0] }}'
+alias hdfs='ssh -i {{ ssh_key }} -L50070:{{ pub_dns_names[0] }}:50070 {{ ec2user }}@{{ pub_dns_names[0] }}'
+alias yarn='ssh -i {{ ssh_key }} -L8088:{{ pub_dns_names[0] }}:8088 {{ ec2user }}@{{ pub_dns_names[0] }}'
+alias hist='ssh -i {{ ssh_key }} -L18080:{{ pub_dns_names[0] }}:18080 {{ ec2user }}@{{ pub_dns_names[0] }}'
+alias accu='ssh -i {{ ssh_key }} -L9995:{{ pub_dns_names[0] }}:9995 {{ ec2user }}@{{ pub_dns_names[0] }}'
