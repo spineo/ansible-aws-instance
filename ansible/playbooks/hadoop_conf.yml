@@ -60,3 +60,11 @@
         owner: "{{ ha_user }}"
         group: "{{ ha_group }}"
         mode: '0600'
+
+    - name: Template for the SSH 'authorized_keys' file
+      template:
+        src: ../templates/hadoop/authorized_keys
+        dest: "{{ ha_ssh_dir }}/authorized_keys"
+        owner: "{{ ha_user }}"
+        group: "{{ ha_group }}"
+        mode: '0600'

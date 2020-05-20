@@ -1,4 +1,4 @@
-- name: Hadoop
+- name: Hadoop Daemons
   hosts: servers
   become: true
   become_user: "{{ ha_user }}"
@@ -16,7 +16,7 @@
 
     # If not running, it will still return status code 0
     #
-    - name: "Stop the Hadoop/DFS Daemon on '{{ ha_master_host }}'"
+    - name: "Stop the Hadoop/DFS Daemon '{{ ha_master_host }}'"
       delegate_to: "{{ ha_master_host }}"
       shell:
         cmd: ./stop-dfs.sh
@@ -24,7 +24,7 @@
 
     # Web UI can be accessed on the master node port 50070
     #
-    - name: "Start the Hadoop/DFS Daemon on '{{ ha_master_host }}'"
+    - name: "Start the Hadoop/DFS Daemon '{{ ha_master_host }}'"
       delegate_to: "{{ ha_master_host }}"
       shell:
         cmd: ./start-dfs.sh
@@ -32,7 +32,7 @@
 
     # If not running, it will still return status code 0
     #
-    - name: "Stop the YARN Daemon on '{{ ha_master_host }}'"
+    - name: "Stop the YARN Daemon '{{ ha_master_host }}'"
       delegate_to: "{{ ha_master_host }}"
       shell:
         cmd: ./stop-yarn.sh
@@ -40,7 +40,7 @@
 
     # Web UI can be accessed on the master node port 8088
     #
-    - name: "Start the YARN Daemon on '{{ ha_master_host }}'"
+    - name: "Start the YARN Daemon '{{ ha_master_host }}'"
       delegate_to: "{{ ha_master_host }}"
       shell:
         cmd: ./start-yarn.sh

@@ -14,4 +14,3 @@
         chdir: "{{ zk_home }}"
       register: command_result
       failed_when: "'Mode: follower' not in command_result.stdout and 'Mode: leader' not in command_result.stdout"
-

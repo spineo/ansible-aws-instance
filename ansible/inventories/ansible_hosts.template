@@ -48,6 +48,7 @@ ha_resource_tracker_port=8031
 #
 ha_ssh_dir=/home/{{ ha_user }}/.ssh
 ha_identity_file={{ ha_ssh_dir }}/id_rsa
+ha_id_rsa_pub=YOUR_PUBLIC_KEY
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Accumulo configuration
