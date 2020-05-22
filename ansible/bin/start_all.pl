@@ -136,14 +136,45 @@ foreach my $conf (@$PLAYBOOKS_CONF) {
 sub runPlaybook {
     my ($prompt, $playbook, @inventories) = @_;
 
-    my $inv_list = join(' ', map{"-i ./inventories/$_" } @inventories);
+    print STDERR qq|$prompt (y/n or 'e' to exit) => |;
+    my $ans = <STDIN>;
+    chomp $ans;
 
-    chdir($ANSIBLE_HOME);
+    ($ans eq 'e') && exit(0);
 
-    my $command = qq|$PB_CMD $inv_list ./playbooks/$playbook|;
+    if ($ans eq 'y') {
+        my $inv_list = join(' ', map{"-i ./inventories/$_" } @inventories);
+        my $command = qq|$PB_CMD $inv_list ./playbooks/$playbook|;
 
-    print STDERR "Running command: $command\n";
+        print STDERR "Running command: $command\n";
 
+        my ($output, $stat) = &runCmd($command);
+        if ($stat != 0) {
+            print STDERR "Command Failed, retry? (y/n) => ";
+            my $retry = <STDIN>;
+
+            if ($retry eq 'y') {
+                ($output, $stat) = &runCmd($command);
+            }
+
+            ($stat != 0) && die("$output\nCommand failed: $!");
+        }
+
+        print STDERR "Output:\n$output\n";
+    }
+}
+
+#------------------------------------------------------------------------------
+# runCmd: Run the command
+#------------------------------------------------------------------------------
+
+sub runCmd {
+    my $cmd = shift;
+
+    my $output = `$cmd`;
+    my $stat   = $?;
+
+    return ($output, $stat);
 }
 
 #------------------------------------------------------------------------------
