@@ -42,21 +42,121 @@ our $VERSION = "1.0";
 our $VERBOSE = 0;
 our $DEBUG   = 0;
 
+our $ANSIBLE_HOME;
+
 use Getopt::Long;
 GetOptions(
-    'debug'      => \$DEBUG,
-    'verbose'    => \$VERBOSE,
-    'help|usage' => \&usage,
+    'ansible-home=s' => \$ANSIBLE_HOME,
+    'debug'          => \$DEBUG,
+    'verbose'        => \$VERBOSE,
+    'help|usage'     => \&usage,
 );
+
+# Verify/cd to Ansible Home
+#
+! $ANSIBLE_HOME && &usage("Command-line argument '--ansible-home' is not defined.");
+! -d $ANSIBLE_HOME && die("Incorrect or inaccessible directory specified for 'ansible-home': $ANSIBLE_HOME");
+chdir($ANSIBLE_HOME);
+
+# Playbook related configuration
+#
+our $PB_CMD = qw|ansible-playbook|;
+
+# Inventories
+#
+our $CLUSTER_CONF_INV = qw|zk_ha_ac_conf|;
+our $SERVERS_INV      = qw|servers|;
+our $HOSTS_INV        = qw|ansible_hosts|;
+
+our $PLAYBOOKS_CONF = [
+    {
+        'prompt'      => qq|Start up the Cluster?|,
+        'playbook'    => 'zk_ha_ac_instances.yml',
+        'inventories' => [ $CLUSTER_CONF_INV ]
+    },
+    {
+        'prompt'      => qq|Update the Security Group?|,
+        'playbook'    => 'zk_ha_ac_group.yml',
+        'inventories' => [ $CLUSTER_CONF_INV ]
+    },
+    {
+        'prompt'      => qq|Create the 'servers' File?|,
+        'playbook'    => 'zk_ha_ac_servers.yml',
+        'inventories' => [ $CLUSTER_CONF_INV ]
+    },
+    {
+        'prompt'      => qq|Create the '.aliases' File?|,
+        'playbook'    => 'zk_ha_ac_aliases.yml',
+        'inventories' => [ $CLUSTER_CONF_INV ]
+    },
+    {
+        'prompt'      => qq|Configure Zookeeper?|,
+        'playbook'    => 'zookeeper_conf.yml',
+        'inventories' => [ $SERVERS_INV, $HOSTS_INV ]
+    },
+    {
+        'prompt'      => qq|Start the Zookeeper Daemons?|,
+        'playbook'    => 'zookeeper_daemons.yml',
+        'inventories' => [ $SERVERS_INV, $HOSTS_INV ]
+    },
+    {
+        'prompt'      => qq|Configure Hadoop?|,
+        'playbook'    => 'hadoop_conf.yml',
+        'inventories' => [ $SERVERS_INV, $HOSTS_INV ]
+    },
+    {
+        'prompt'      => qq|Start the Hadoop Daemons?|,
+        'playbook'    => 'hadoop_daemons.yml',
+        'inventories' => [ $SERVERS_INV, $HOSTS_INV ]
+    },
+    {
+        'prompt'      => qq|Configure Accumulo?|,
+        'playbook'    => 'accumulo_conf.yml',
+        'inventories' => [ $SERVERS_INV, $HOSTS_INV ]
+    },
+    {
+        'prompt'      => qq|Start the Accumulo Daemons?|,
+        'playbook'    => 'accumulo_daemons.yml',
+        'inventories' => [ $SERVERS_INV, $HOSTS_INV ]
+    },
+];
+
+
+# Run the playbooks
+#
+foreach my $conf (@$PLAYBOOKS_CONF) {
+    &runPlaybook($conf->{'prompt'}, $conf->{'playbook'}, @{$conf->{'inventories'}});
+}
+
+
+#------------------------------------------------------------------------------
+# runPlaybook: Invoke an Ansible Playbook command
+#------------------------------------------------------------------------------
+
+sub runPlaybook {
+    my ($prompt, $playbook, @inventories) = @_;
+
+    my $inv_list = join(' ', map{"-i ./inventories/$_" } @inventories);
+
+    chdir($ANSIBLE_HOME);
+
+    my $command = qq|$PB_CMD $inv_list ./playbooks/$playbook|;
+
+    print STDERR "Running command: $command\n";
+
+}
 
 #------------------------------------------------------------------------------
 # usage: Print usage when invoked with -help or -usage
 #------------------------------------------------------------------------------
 
 sub usage {
+    my $err_str = shift;
+
+    $err_str && print STDERR qq|Error:   $err_str\n|;
     print STDERR <<_USAGE;
-Usage:   ./$COMMAND --debug --verbose
-Example: ./$COMMAND --debug --verbose
+Usage:   ./$COMMAND --ansible-home <absolute or relative path> [ --debug --verbose ]
+Example: ./$COMMAND --ansible-home .. --debug --verbose
 _USAGE
 
     exit(1);
