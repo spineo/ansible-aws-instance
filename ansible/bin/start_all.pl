@@ -3,8 +3,9 @@
 #------------------------------------------------------------------------------
 # Name       : start_all.pl
 # Author     : Stuart Pineo  <svpineo@gmail.com>
-# Usage      :
-# Description: Start up AWS EC2 Instances and Zookeeper/Hadoop/Accumulo Cluster
+# Usage      : ./start_all.pl --ansible-home <absolute or relative path> [ --stop --debug --verbose ]
+# Description: Start up AWS EC2 Instances and Zookeeper/Hadoop/Accumulo Cluster.
+# The '--stop' command-line argument shuts off the cluster but prompts the user first.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,11 +43,12 @@ our $VERSION = "1.0";
 our $VERBOSE = 0;
 our $DEBUG   = 0;
 
-our $ANSIBLE_HOME;
+our ($ANSIBLE_HOME, $STOP);
 
 use Getopt::Long;
 GetOptions(
     'ansible-home=s' => \$ANSIBLE_HOME,
+    'stop'           => \$STOP,
     'debug'          => \$DEBUG,
     'verbose'        => \$VERBOSE,
     'help|usage'     => \&usage,
@@ -68,7 +70,15 @@ our $CLUSTER_CONF_INV = qw|zk_ha_ac_conf|;
 our $SERVERS_INV      = qw|servers|;
 our $HOSTS_INV        = qw|ansible_hosts|;
 
-our $PLAYBOOKS_CONF = [
+our $STOP_CONF = [
+    {
+        'prompt'      => qq|Stop the Cluster?|,
+        'playbook'    => 'zk_ha_ac_stop.yml',
+        'inventories' => [ $CLUSTER_CONF_INV ]
+    },
+];
+
+our $START_CONF = [
     {
         'prompt'      => qq|Start up the Cluster?|,
         'playbook'    => 'zk_ha_ac_instances.yml',
@@ -121,10 +131,11 @@ our $PLAYBOOKS_CONF = [
     },
 ];
 
+my $action = $STOP ? $STOP_CONF : $START_CONF;
 
 # Run the playbooks
 #
-foreach my $conf (@$PLAYBOOKS_CONF) {
+foreach my $conf (@$action) {
     &runPlaybook($conf->{'prompt'}, $conf->{'playbook'}, @{$conf->{'inventories'}});
 }
 
@@ -182,12 +193,14 @@ sub runCmd {
 #------------------------------------------------------------------------------
 
 sub usage {
-    my $err_str = shift;
+    my $msg_str = shift;
 
-    $err_str && print STDERR qq|Error:   $err_str\n|;
+    $msg_str && print STDERR qq|Message : $msg_str\n|;
+
     print STDERR <<_USAGE;
-Usage:   ./$COMMAND --ansible-home <absolute or relative path> [ --debug --verbose ]
-Example: ./$COMMAND --ansible-home .. --debug --verbose
+Usage   : ./$COMMAND --ansible-home <absolute or relative path> [ --stop  --debug --verbose ]
+Examples: ./$COMMAND --ansible-home .. --debug   # Start up the instances and configure/run the cluster (prompt driven)
+          ./$COMMAND -=ansible-home .. --stop    # Stop the cluster (prompt driven)
 _USAGE
 
     exit(1);
