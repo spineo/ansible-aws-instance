@@ -3,10 +3,18 @@
   become: true
   become_user: "{{ ha_user }}"
   tasks:
-    - name: Remove and re-create the 'known_hosts' file
+    - name: Remove the 'known_hosts' file
       delegate_to: "{{ ha_master_host }}"
-      shell:
-        cmd: "rm {{ ha_ssh_dir }}/known_hosts && touch {{ ha_ssh_dir }}/known_hosts || echo 'Not Found'"
+      file:
+        path: "{{ ha_ssh_dir }}/known_hosts"
+        state: absent
+
+    - name: Re-create 'known_hosts' as an empty file
+      delegate_to: "{{ ha_master_host }}"
+      file:
+        path: "{{ ha_ssh_dir }}/known_hosts"
+        state: touch
+        mode: '0644'
 
     - name: Add the fingerprint 'known_hosts'
       delegate_to: "{{ ha_master_host }}"
