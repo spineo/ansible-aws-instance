@@ -174,8 +174,20 @@ To run the Accumulo cluster [_daemons_](ansible/playbooks/accumulo_daemons.yml) 
 ansible-playbook  -i ./inventories/servers -i ./inventories/ansible_hosts ./playbooks/accumulo_daemons.yml
 ```
 
+## Playbook Run Automation
 
-For now, this playbook only configures the _accumulo.properties_, _accumulo-client.properties_ and initializes the _accumulo_ user _.bashrc_ (all functionality template driven)
+In the $ANSIBLE_HOME/bin directory the script [_run_playbooks.pl_](ansible/bin/run_playbooks.pl) will initiate the sequence of playbook actions needed to _start_ the cluster instances (which includes configuring the applications and restarting their daemons) or _stop_ the cluster instances.
+
+Typing _run_playbook.pl --help_ will shown usage and examples:
+```
+Message : help
+Usage   : ./run_playbooks.pl --ansible-home <absolute or relative path> [ --start --stop  --debug --verbose ]
+Examples: ./run_playbooks.pl --ansible-home .. --debug   # Start up the instances and configure/run the cluster (prompt driven)
+          ./run_playbooks.pl --ansible-home .. --start   # Same as previous command without the --debug
+          ./run_playbooks.pl -=ansible-home .. --stop    # Stop the cluster (prompt driven)
+```
+
+The script execution allows you to skip a playbook run, re-try (if run failed initially), or exit the playbooks runs all together.
 
 ## Ansible References
 * https://docs.ansible.com/ansible/latest/modules/ec2_module.html
