@@ -187,7 +187,7 @@ Examples: ./run_playbooks.pl --ansible-home .. --debug   # Start up the instance
           ./run_playbooks.pl -=ansible-home .. --stop    # Stop the cluster (prompt driven)
 ```
 
-The script execution allows you to skip a playbook run, re-try (if run failed initially), or exit the playbooks runs all together.
+The script execution allows you to skip a playbook run (by hitting 'n' or return key), re-try (if run failed initially), or exit the playbooks runs all together.
 
 ## Ansible References
 * https://docs.ansible.com/ansible/latest/modules/ec2_module.html
