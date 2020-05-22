@@ -20,3 +20,11 @@
         mode: '0644'
       vars:
         server_count: "{{ groups['servers'].index(inventory_hostname) + 1 }}"
+
+    - name: Template for 'bashrc'
+      template:
+        src: ../templates/zookeeper/bashrc
+        dest: "{{ zk_bashrc }}"
+        owner: "{{ zk_user }}"
+        group: "{{ zk_group }}"
+        mode: '0644'

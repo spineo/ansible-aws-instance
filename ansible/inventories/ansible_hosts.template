@@ -15,6 +15,7 @@ zk_conf=zoo.cfg
 zk_client_port=2181
 zk_peer_port=2888
 zk_leader_port=3888
+zk_bashrc=/home/zookeeper/.bashrc
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Hadoop/HDFS configuration
@@ -49,6 +50,8 @@ ha_resource_tracker_port=8031
 ha_ssh_dir=/home/{{ ha_user }}/.ssh
 ha_identity_file={{ ha_ssh_dir }}/id_rsa
 ha_id_rsa_pub=YOUR_PUBLIC_KEY
+
+ha_bashrc=/home/hadoop/.bashrc
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Accumulo configuration

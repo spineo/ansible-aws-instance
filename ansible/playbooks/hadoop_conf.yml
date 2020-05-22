@@ -68,3 +68,11 @@
         owner: "{{ ha_user }}"
         group: "{{ ha_group }}"
         mode: '0600'
+
+    - name: Template for 'bashrc'
+      template:
+        src: ../templates/hadoop/bashrc
+        dest: "{{ ha_bashrc }}"
+        owner: "{{ ha_user }}"
+        group: "{{ ha_group }}"
+        mode: '0644'
