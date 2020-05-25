@@ -171,19 +171,17 @@ sub runPlaybook {
 
         print STDERR "Running command: $command\n";
 
-        my ($output, $stat) = &runCmd($command);
+        my $stat = &runCmd($command);
         if ($stat != 0) {
             print STDERR "Command Failed, retry? (y/n) => ";
             my $retry = <STDIN>;
 
             if ($retry eq 'y') {
-                ($output, $stat) = &runCmd($command);
+                $stat = &runCmd($command);
             }
 
-            ($stat != 0) && die("$output\nCommand failed: $!");
+            ($stat != 0) && die("Command '$command' failed: $!");
         }
-
-        print STDERR "Output:\n$output\n";
     }
 }
 
@@ -194,10 +192,14 @@ sub runPlaybook {
 sub runCmd {
     my $cmd = shift;
 
-    my $output = `$cmd`;
+    open FH, "$cmd |";
+    while (<FH>) {
+        print STDERR $_;
+    }
+    close FH ;
     my $stat   = $?;
 
-    return ($output, $stat);
+    return $stat;
 }
 
 #------------------------------------------------------------------------------
