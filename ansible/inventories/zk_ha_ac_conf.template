@@ -19,7 +19,7 @@ int_ips=[ 'xxx.xxx.xxx.xxx', 'xxx.xxx.xxx.xxx', 'xxx.xxx.xxx.xxx' ]
 # List of ports used by the Zookeeper, Hadoop, and Accumulo Cluster
 #
 ext_ports=[ '22' ]
-priv_ip_ports=[ '22', '7', '2181', '2888', '3888', '9000', '54311', '8030', '8031', '8020' ]
+priv_ip_ports=[ '22', '7', '2181', '2888', '3888', '9000', '54311', '8030', '8031', '9997', '10001', '10002' ]
 pub_ip_ports=[]
 
 # For constructing aliases

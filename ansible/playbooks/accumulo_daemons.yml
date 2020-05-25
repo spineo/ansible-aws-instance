@@ -19,20 +19,12 @@
         cmd: "source {{ ac_bashrc }}; ./accumulo-service tserver start"
         chdir: "{{ ac_home }}/bin"
 
-    # Stop the standalone 'tserver' (again, as we will be using the cluster setup)
+    # Kill the cluster (if not running, it will still return status code 0)
     #
-    - name: "Stop the 'tserver' '{{ ac_master_host }}'"
+    - name: "Kill the Cluster Daemons '{{ ac_master_host }}'"
       delegate_to: "{{ ac_master_host }}"
       shell:
-        cmd: "source {{ ac_bashrc }}; ./accumulo-service tserver stop"
-        chdir: "{{ ac_home }}/bin"
-
-    # Stop the cluster (if not running, it will still return status code 0)
-    #
-    - name: "Stop the Cluster Daemons '{{ ac_master_host }}'"
-      delegate_to: "{{ ac_master_host }}"
-      shell:
-        cmd: "source {{ ac_bashrc }}; ./accumulo-cluster stop"
+        cmd: "source {{ ac_bashrc }}; ./accumulo-cluster kill"
         chdir: "{{ ac_home }}/bin"
 
     # Web UI can be accessed on the master node port 9995
