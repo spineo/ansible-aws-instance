@@ -9,11 +9,14 @@
         regexp: '^export HADOOP_HOME=.*'
         line: 'export HADOOP_HOME="${HADOOP_HOME:-{{ ha_home }}}"'
 
-    - name: Ensure that ZOOKEEPER_HOME is set
+    - name: Ensure that ZOOKEEPER_HOME is set, ensuring executable bit set on that file
       lineinfile:
         path: "{{ ac_conf }}/accumulo-env.sh"
         regexp: '^export ZOOKEEPER_HOME=.*'
         line: 'export ZOOKEEPER_HOME="${ZOOKEEPER_HOME:-{{ zk_home }}}"'
+        owner: "{{ ac_user }}"
+        group: "{{ ac_group }}"
+        mode: '0750'
 
     - name: Template for 'accumulo.properties'
       template:
