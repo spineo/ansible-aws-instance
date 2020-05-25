@@ -3,6 +3,18 @@
   become: true
   become_user: "{{ ac_user }}"
   tasks:
+    - name: Ensure that HADOOP_HOME is set
+      lineinfile:
+        path: "{{ ac_conf }}/accumulo-env.sh"
+        regexp: '^export HADOOP_HOME=.*'
+        line: 'export HADOOP_HOME="${HADOOP_HOME:-{{ ha_home }}}"'
+
+    - name: Ensure that ZOOKEEPER_HOME is set
+      lineinfile:
+        path: "{{ ac_conf }}/accumulo-env.sh"
+        regexp: '^export ZOOKEEPER_HOME=.*'
+        line: 'export ZOOKEEPER_HOME="${ZOOKEEPER_HOME:-{{ zk_home }}}"'
+
     - name: Template for 'accumulo.properties'
       template:
         src: ../templates/accumulo/accumulo.properties

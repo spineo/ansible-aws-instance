@@ -175,6 +175,7 @@ sub runPlaybook {
         if ($stat != 0) {
             print STDERR "Command Failed, retry? (y/n) => ";
             my $retry = <STDIN>;
+            chomp $retry;
 
             if ($retry eq 'y') {
                 $stat = &runCmd($command);
