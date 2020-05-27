@@ -195,4 +195,7 @@ The script execution allows you to skip a playbook run (by hitting 'n' or return
 * https://docs.ansible.com/ansible/latest/modules/ec2_group_module.html
 * https://docs.ansible.com/ansible/latest/modules/ec2_instance_info_module.html
 * https://docs.ansible.com/ansible/2.4/playbooks_loops.html#nested-loops
+* https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html
+* https://docs.ansible.com/ansible/latest/modules/debug_module.html
+
 
