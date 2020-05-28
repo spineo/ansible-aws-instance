@@ -1,5 +1,5 @@
 theme: jekyll-theme-cayman
 title: "Ansible AWS Instance"
 name: "Stuart Pineo"
-description: "Launch/Configuire AWS EC2 Instances and Security Groups Using Ansible and Configure/Start Up Applications."
+description: "Launch/Configure AWS EC2 Instances and Security Groups Using Ansible and Configure/Start Up Applications."
 keywords: aws, aws-ec2, ansible, ansible-playbook, python, python3, perl, zookeeper, hadoop, accumulo, ansible-inventory, ansible-template
