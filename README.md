@@ -1,6 +1,6 @@
 # ansible-aws-instance
 
-Launch/Configuire AWS EC2 Instances and Security Groups Using Ansible and Configure/Startup Applications.
+Launch/Configure AWS EC2 Instances and Security Groups Using Ansible and Configure/Start Up Applications.
 
 This project contains the Ansible inventories, playbooks, and templates needed to manage EC2 instances and individual applications.
 
